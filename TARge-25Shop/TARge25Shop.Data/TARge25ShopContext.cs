@@ -4,12 +4,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TARge25Shop.Data
 {
-    
+    //nimetasime classi TARge25ShopContext, mis pärib DbContext klassi
     public class TARge25ShopContext : DbContext
     {
+        //tegime kontektsi, mis pärib DbContext klassi
+        public TARge25ShopContext(DbContextOptions<TARge25ShopContext> options)
+                : base(options) { }
 
-        //see class tuleb teha DbContextiks,
-        //et saaks kasutada Entity Frameworki andmebaasi operatsioone
+      
 
     }
 }
