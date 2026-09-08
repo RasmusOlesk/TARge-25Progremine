@@ -1,3 +1,8 @@
+using TARge25Shop.ApplicationServices.Services;
+using TARge25SHop.Core.ServiceInterface;
+using TARge25Shop.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace TARge_25Shop
 {
     public class Program
@@ -9,6 +14,11 @@ namespace TARge_25Shop
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddScoped<ISpaceshipServices, SpaceshipServices>();
+
+            builder.Services.AddDbContext<TARge25ShopContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConection")));
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

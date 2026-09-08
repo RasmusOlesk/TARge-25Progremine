@@ -7,4 +7,17 @@
     <RootNamespace>TARge_25Shop</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.11">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TARge25Shop.ApplicationServices\TARge25Shop.ApplicationServices.csproj" />
+    <ProjectReference Include="..\TARge25SHop.Core\TARge25SHop.Core.csproj" />
+  </ItemGroup>
+
 </Project>
