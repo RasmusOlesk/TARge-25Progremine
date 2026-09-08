@@ -1,13 +1,25 @@
-﻿@model TARge_25Shop.Models.Spaceship.SpaceshipCreateViewModel
+﻿@model IEnumerable<TARge_25Shop.Models.Spaceship.SpaceshipCreateViewModel>
 
 <div>
-    Spaceship Create
+    <a asp-action="create" asp-controller="spaceship" type="submit" class="btn btn-primary">create</a>
 </div>
-<form method="post" enctype="multipart/form-data">
-    <input asp-for="Id" type="hidden"/>
-    <input asp-for="CreatedAt" type="hidden"/>
-    <input asp-for="UpdatedAt" type="hidden"/>
 
+<div class="h1">
+    Spaceships
+</div>
+<form method="get">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">"Nr"</th>
+                <th scope="col">"Name"</th>
+                <th scope="col">"Type"</th>
+                <th scope="col">"Built Date"</th>
+                <th scope="col">"Crew"</th>
+                <th scope="col">""</th>
+            </tr>
+        </thead>
+    </table>
     <div class="form-group"row>
         <lable asp-for="Name" class="col-sm-2 col-form-label"></lable>
         <div class="col-sm-10">
