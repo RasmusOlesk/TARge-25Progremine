@@ -12,7 +12,7 @@ using TARge25Shop.Data;
 namespace TARge25Shop.Data.Migrations
 {
     [DbContext(typeof(TARge25ShopContext))]
-    [Migration("20260908073601_init")]
+    [Migration("20260908083441_Init")]
     partial class Init
     {
         /// <inheritdoc />

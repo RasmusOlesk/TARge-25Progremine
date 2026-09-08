@@ -11,14 +11,15 @@ namespace TARge_25Shop
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddScoped<ISpaceshipServices, SpaceshipServices>();
 
             builder.Services.AddDbContext<TARge25ShopContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConection")));
-            
+                options.UseSqlServer(connectionString));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
