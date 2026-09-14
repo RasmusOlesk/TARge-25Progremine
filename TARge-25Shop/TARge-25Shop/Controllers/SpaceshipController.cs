@@ -9,7 +9,6 @@ namespace TARge25Shop.Controllers
     public class SpaceshipController : Controller
     {
         private readonly ISpaceshipServices _spaceshipServices;
-
         private readonly TARge25ShopContext _context;
 
         public SpaceshipController
@@ -25,11 +24,11 @@ namespace TARge25Shop.Controllers
         public IActionResult Index()
         {
 
-            // Kutsume teenuse välja, et saada kõik kosmoselaevad
+            // Kutsume teenuse välja, et saada kõik kosmoselaevad. 
             //constructoris tuleb välja kutsuda DbContext, et
-            //saaksime andmeid kätte. Seejärel kutsume teenuse välja
+            //saaksime andmeid kätte.
             var result = _context.Spaceships
-                .Select(x = new SpaceshipIndexViewModel
+                .Select(x => new SpaceshipIndexViewModel
                 {
                     Id = x.Id,
                     Name = x.Name,
@@ -37,7 +36,6 @@ namespace TARge25Shop.Controllers
                     CreatedAt = x.CreatedAt,
                     Crew = x.Crew
                 });
-
 
             return View(result);
         }
@@ -71,6 +69,28 @@ namespace TARge25Shop.Controllers
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Update(Guid id)
+        {
+            var spaceship = await _spaceshipServices.DetailAsync(id);
+
+            if (spaceship == null)
+            {
+                return NotFound();
+            }
+
+            var vm = new SpaceshipUpdateViewModel
+            {
+                Id = spaceship.Id,
+                Name = spaceship.Name,
+                ShipType = spaceship.ShipType,
+                Crew = spaceship.Crew,
+                EnginePower = spaceship.EnginePower
+            };
+
+            return View(vm);
         }
     }
 }
