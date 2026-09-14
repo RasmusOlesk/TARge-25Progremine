@@ -1,5 +1,5 @@
 using TARge25Shop.ApplicationServices.Services;
-using TARge25SHop.Core.ServiceInterface;
+using TARge25Shop.Core.ServiceInterface;
 using TARge25Shop.Data;
 using Microsoft.EntityFrameworkCore;
 

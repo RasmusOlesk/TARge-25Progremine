@@ -1,16 +1,15 @@
-﻿
-
-
-using TARge25SHop.Core.Domain;
-using TARge25SHop.Core.Dto;
-using TARge25SHop.Core.ServiceInterface;
+﻿using TARge25Shop.Core.Domain;
+using TARge25Shop.Core.Dto;
+using TARge25Shop.Core.ServiceInterface;
 using TARge25Shop.Data;
+
 
 namespace TARge25Shop.ApplicationServices.Services
 {
     public class SpaceshipServices : ISpaceshipServices
     {
         private readonly TARge25ShopContext _context;
+
         public SpaceshipServices
             (
                 TARge25ShopContext context
@@ -27,7 +26,7 @@ namespace TARge25Shop.ApplicationServices.Services
             //et andmed liiguvad dto-st domain objekt
             Spaceship spaceShip = new();
 
-            spaceShip.Id = dto.Id;
+            spaceShip.Id = Guid.NewGuid();
             spaceShip.Name = dto.Name;
             spaceShip.ShipType = dto.ShipType;
             spaceShip.Crew = dto.Crew;
@@ -35,17 +34,11 @@ namespace TARge25Shop.ApplicationServices.Services
             spaceShip.CreatedAt = DateTime.Now;
             spaceShip.UpdatedAt = DateTime.Now;
 
-            //andemte salvestamine andmebaasi
-
+            //andmete salvestamine andmebaasi
             _context.Spaceships.Add(spaceShip);
             await _context.SaveChangesAsync();
 
             return spaceShip;
-
-
-           
-
-         
         }
     }
 }

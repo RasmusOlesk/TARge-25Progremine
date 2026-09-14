@@ -1,27 +1,45 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TARge25SHop.Core.Dto;
-using TARge_25Shop.Models.Spaceship;
-using TARge25Shop.ApplicationServices.Services;
-using TARge25SHop.Core.ServiceInterface;
+using TARge25Shop.Core.Dto;
+using TARge25Shop.Core.ServiceInterface;
+using TARge25Shop.Data;
+using TARge25Shop.Models.Spaceship;
 
-namespace TARge_25Shop.Controllers
+namespace TARge25Shop.Controllers
 {
     public class SpaceshipController : Controller
     {
-
         private readonly ISpaceshipServices _spaceshipServices;
+
+        private readonly TARge25ShopContext _context;
 
         public SpaceshipController
             (
-                ISpaceshipServices spaceshipServices
+                ISpaceshipServices spaceshipServices,
+                TARge25ShopContext context
             )
         {
             _spaceshipServices = spaceshipServices;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+
+            // Kutsume teenuse välja, et saada kõik kosmoselaevad
+            //constructoris tuleb välja kutsuda DbContext, et
+            //saaksime andmeid kätte. Seejärel kutsume teenuse välja
+            var result = _context.Spaceships
+                .Select(x = new SpaceshipIndexViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    ShipType = x.ShipType,
+                    CreatedAt = x.CreatedAt,
+                    Crew = x.Crew
+                });
+
+
+            return View(result);
         }
 
         [HttpGet]
@@ -42,13 +60,14 @@ namespace TARge_25Shop.Controllers
             };
 
             //Nüüd kutsume teenuse välja, et luua uus kosmoselaev. See on
-            //asünkroone tegevus ja kasutame await.
+            //asünkroonne tegevus ja kasutame await.
             var result = await _spaceshipServices.Create(dto);
 
             if (result == null)
             {
+                // Kui kosmoselaeva loomine ebaõnnestus, siis võime kuvada veateate
+                // ja jätta kasutaja samale lehele.
                 return RedirectToAction(nameof(Index));
-
             }
 
             return RedirectToAction(nameof(Index));

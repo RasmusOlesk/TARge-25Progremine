@@ -1,9 +1,9 @@
 ﻿
+using TARge25Shop.Core.Domain;
+using TARge25Shop.Core.Dto;
 
-using TARge25SHop.Core.Domain;
-using TARge25SHop.Core.Dto;
 
-namespace TARge25SHop.Core.ServiceInterface
+namespace TARge25Shop.Core.ServiceInterface
 {
     public interface ISpaceshipServices
     {

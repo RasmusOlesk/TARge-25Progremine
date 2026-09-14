@@ -1,6 +1,4 @@
-﻿
-
-namespace TARge25SHop.Core.Dto
+﻿namespace TARge25Shop.Core.Dto
 {
     public class SpaceshipDto
     {
@@ -9,6 +7,7 @@ namespace TARge25SHop.Core.Dto
         public string ShipType { get; set; } = string.Empty;
         public int Crew { get; set; }
         public int EnginePower { get; set; }
+
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }
