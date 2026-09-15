@@ -1,10 +1,10 @@
-﻿namespace TARge25Shop.Core.Domain
+﻿namespace TARge25Shop.Models.Spaceship
 {
-    public class Spaceship
+    internal class SpaceshipDetailsViewModel
     {
         public Guid? Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string ShipType { get; set; } = string.Empty;
+        public string Name { get; set; }
+        public string ShipType { get; set; }
         public int Crew { get; set; }
         public int EnginePower { get; set; }
 
