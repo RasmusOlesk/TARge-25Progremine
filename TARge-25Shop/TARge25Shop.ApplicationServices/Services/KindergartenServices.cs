@@ -64,6 +64,8 @@ namespace TARge25Shop.ApplicationServices.Services
             return KinderGarten;
         }
 
+
+
         public async Task<Kindergarten> DetailAsync(Guid id)
         {
             var kindergarten = await _context.Kindergartens

@@ -60,6 +60,7 @@ namespace TARge25Shop.Controllers
                 KindergartenName = vm.KindergartenName,
                 TeacherName = vm.TeacherName,
                 ChildrenCount = vm.ChildrenCount
+
             };
 
             //Nüüd kutsume teenuse välja, et luua uus kosmoselaev. See on
@@ -93,6 +94,8 @@ namespace TARge25Shop.Controllers
                 KindergartenName = kindergarten.KindergartenName,
                 TeacherName = kindergarten.TeacherName,
                 ChildrenCount = kindergarten.ChildrenCount,
+                CreatedAt = kindergarten.CreatedAt,
+                UpdatedAt = kindergarten.UpdatedAt
             };
 
             return View("CreateUpdate", vm);
@@ -180,7 +183,9 @@ namespace TARge25Shop.Controllers
                 GroupName = kindergarten.GroupName,
                 KindergartenName = kindergarten.KindergartenName,
                 TeacherName = kindergarten.TeacherName,
-                ChildrenCount = kindergarten.ChildrenCount
+                ChildrenCount = kindergarten.ChildrenCount,
+                CreatedAt = kindergarten.CreatedAt,
+                UpdatedAt = kindergarten.UpdatedAt
             };
 
 

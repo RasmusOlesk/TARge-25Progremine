@@ -22,7 +22,6 @@
                 <th scope="col">Teacher Name</th>
                 <th scope="col">Children Count</th>
                 <th scope="col">Created At</th>
-                <th scope="col">Updated At</th>
             </tr>
         </thead>
         <tbody>
@@ -35,7 +34,6 @@
                     <td>@kindergarten.TeacherName</td>
                     <td>@kindergarten.ChildrenCount</td>
                     <td>@kindergarten.CreatedAt</td>
-                    <td>@kindergarten.UpdatedAt</td>
                     <td>
                         <a asp-action="details" asp-controller="kindergarten" asp-route-id="@kindergarten.Id" class="btn btn-primary">Details</a>
                         <a asp-action="update" asp-controller="kindergarten" asp-route-id="@kindergarten.Id" class="btn btn-primary">Update</a>
