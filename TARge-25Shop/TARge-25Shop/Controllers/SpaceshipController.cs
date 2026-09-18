@@ -46,8 +46,6 @@ namespace TARge25Shop.Controllers
             SpaceshipCreateUpdateViewModel result = new();
 
             return View("CreateUpdate", result);
-
-            return View("CreateUpdate");
         }
 
         [HttpPost]
@@ -91,7 +89,9 @@ namespace TARge25Shop.Controllers
                 Name = spaceship.Name,
                 ShipType = spaceship.ShipType,
                 Crew = spaceship.Crew,
-                EnginePower = spaceship.EnginePower
+                EnginePower = spaceship.EnginePower,
+                CreatedAt = spaceship.CreatedAt,
+                UpdatedAt = spaceship.UpdatedAt
             };
 
             return View("CreateUpdate", vm);
@@ -119,8 +119,6 @@ namespace TARge25Shop.Controllers
             }
 
             return RedirectToAction(nameof(Index));
-
-
         }
 
         [HttpGet]
@@ -133,17 +131,17 @@ namespace TARge25Shop.Controllers
                 return NotFound();
             }
 
-            //see on vaheinstants
+            //see on vaheinstants domaini ja vm vahel
             var vm = new SpaceshipDeleteViewModel
             {
                 Id = spaceship.Id,
                 Name = spaceship.Name,
                 ShipType = spaceship.ShipType,
                 Crew = spaceship.Crew,
-                EnginePower = spaceship.EnginePower
+                EnginePower = spaceship.EnginePower,
+                CreatedAt = spaceship.CreatedAt,
+                UpdatedAt = spaceship.UpdatedAt
             };
-
-          
 
             return View(vm);
         }
@@ -159,10 +157,10 @@ namespace TARge25Shop.Controllers
             }
 
             return RedirectToAction(nameof(Index));
-
         }
 
         [HttpGet]
+        //teha Detaili vaate meetod
         public async Task<IActionResult> Details(Guid id)
         {
             var spaceship = await _spaceshipServices.DetailAsync(id);
@@ -172,20 +170,19 @@ namespace TARge25Shop.Controllers
                 return NotFound();
             }
 
-            //see on vaheinstants
+            //see on vaheinstants domaini ja vm vahel
             var vm = new SpaceshipDetailsViewModel
             {
                 Id = spaceship.Id,
                 Name = spaceship.Name,
                 ShipType = spaceship.ShipType,
                 Crew = spaceship.Crew,
-                EnginePower = spaceship.EnginePower
+                EnginePower = spaceship.EnginePower,
+                CreatedAt = spaceship.CreatedAt,
+                UpdatedAt = spaceship.UpdatedAt
             };
-
-
 
             return View(vm);
         }
-
     }
 }
