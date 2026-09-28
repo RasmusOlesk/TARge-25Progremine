@@ -10,13 +10,16 @@ namespace TARge25Shop.ApplicationServices.Services
     public class SpaceshipServices : ISpaceshipServices
     {
         private readonly TARge25ShopContext _context;
+        private readonly IFileServices _fileServices;
 
         public SpaceshipServices
             (
-                TARge25ShopContext context
+                TARge25ShopContext context,
+                IFileServices fileServices
             )
         {
             _context = context;
+            _fileServices = fileServices;
         }
 
         //see meetod on vaja controlleris esile kutsuda
@@ -34,6 +37,11 @@ namespace TARge25Shop.ApplicationServices.Services
             spaceShip.EnginePower = dto.EnginePower;
             spaceShip.CreatedAt = DateTime.Now;
             spaceShip.UpdatedAt = DateTime.Now;
+            //kui uus ankeet on loodud, siis
+            //toimub ka faili salvestamine
+            //saab kutsuda teise service classi meetotit
+            //esile service classis
+            _fileServices.FilesToApi(dto, spaceShip);
 
             //andmete salvestamine andmebaasi
             _context.Spaceships.Add(spaceShip);
@@ -56,8 +64,10 @@ namespace TARge25Shop.ApplicationServices.Services
             spaceShip.EnginePower = dto.EnginePower;
             spaceShip.CreatedAt = dto.CreatedAt;
             spaceShip.UpdatedAt = DateTime.Now;
+            //lisame juurde piltide lisamise
+            _fileServices.FilesToApi(dto, spaceShip);
 
-            //andmete salvestamine andmebaasi
+            //andmete uuendamine andmebaasis
             _context.Spaceships.Update(spaceShip);
             await _context.SaveChangesAsync();
 
@@ -70,9 +80,6 @@ namespace TARge25Shop.ApplicationServices.Services
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             return spaceship;
-
-
-
         }
 
         public async Task<Spaceship> Delete(Guid id)
@@ -80,13 +87,22 @@ namespace TARge25Shop.ApplicationServices.Services
             var result = await _context.Spaceships
                 .FirstOrDefaultAsync(x => x.Id == id);
 
+            //var images muutuja alt otsib ülesse pildid
+            var images = await _context.FileToApis
+                .Where(x => x.SpaceshipId == id)
+                .Select(y => new FileToApiDto
+                {
+                    Id = y.Id,
+                    SpaceshipId = y.SpaceshipId,
+                    ExistingFilePath = y.ExistingFilePath
+                }).ToArrayAsync();
+            //ja kutsub välja removeImagesFromApi meetodi
+
+            await _fileServices.RemoveImagesFromApi(images);
             _context.Spaceships.Remove(result);
             await _context.SaveChangesAsync();
 
             return result;
         }
-
-
-
     }
 }

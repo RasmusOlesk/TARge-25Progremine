@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using TARge_25Shop.Models;
+using TARge25Shop.Models;
 
 namespace TARge25Shop.Controllers
 {

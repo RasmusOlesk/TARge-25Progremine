@@ -22,36 +22,53 @@ namespace TARge25Shop.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TARge25SHop.Core.Domain.Spaceship", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+            modelBuilder.Entity("TARge25Shop.Core.Domain.FileToApi", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                b.Property<string>("ExistingFilePath")
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Crew")
-                        .HasColumnType("int");
+                b.Property<Guid?>("SpaceshipId")
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("EnginePower")
-                        .HasColumnType("int");
+                b.HasKey("Id");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.ToTable("FileToApis");
+            });
 
-                    b.Property<string>("ShipType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+            modelBuilder.Entity("TARge25Shop.Core.Domain.Spaceship", b =>
+            {
+                b.Property<Guid>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("CreatedAt")
+                    .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                b.Property<int>("Crew")
+                    .HasColumnType("int");
 
-                    b.ToTable("Spaceships");
-                });
+                b.Property<int>("EnginePower")
+                    .HasColumnType("int");
+
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("ShipType")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<DateTime>("UpdatedAt")
+                    .HasColumnType("datetime2");
+
+                b.HasKey("Id");
+
+                b.ToTable("Spaceships");
+            });
 #pragma warning restore 612, 618
         }
     }
