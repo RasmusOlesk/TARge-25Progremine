@@ -4,7 +4,6 @@ using TARge25Shop.Core.Dto;
 using TARge25Shop.Core.ServiceInterface;
 using TARge25Shop.Data;
 using TARge25Shop.Models.Realestate;
-using TARge25Shop.Models.Spaceship;
 
 namespace TARge25Shop.Controllers
 {
@@ -37,7 +36,7 @@ namespace TARge25Shop.Controllers
                     Location = x.Location,
                     RoomNumber = x.RoomNumber,
                     BuildingType = x.BuildingType,
-                    CreatedAt = x.CreatedAt,
+                    CreatedAt = (DateTime)x.CreatedAt,
                 });
 
             return View(result);
@@ -46,20 +45,20 @@ namespace TARge25Shop.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            RealEstateCreateUpdateViewModel result = new();
+            RealestateCreateModifyViewModel result = new();
 
-            return View("CreateUpdate", result);
+            return View("CreateModify", result);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(RealEstateCreateUpdateViewModel vm)
+        public async Task<IActionResult> Create(RealestateCreateModifyViewModel vm)
         {
             var dto = new RealEstateDto
             {
                 Area = vm.Area,
                 Location = vm.Location,
                 RoomNumber = vm.RoomNumber,
-                BuildingType = vm.BuildingTyoe,
+                BuildingType = vm.BuildingType,
             };
 
             //Nüüd kutsume teenuse välja, et luua uus kosmoselaev. See on
@@ -77,7 +76,7 @@ namespace TARge25Shop.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Update(Guid id)
+        public async Task<IActionResult> Modify(Guid id)
         {
             var realestate = await _RealEstateServices.DetailAsync(id);
 
@@ -87,21 +86,21 @@ namespace TARge25Shop.Controllers
             }
 
            
-            var vm = new RealEstateCreateUpdateViewModel();
+            var vm = new RealestateCreateModifyViewModel();
 
             vm.Id = realestate.Id;
             vm.Area = realestate.Area;
             vm.Location = realestate.Location;
             vm.RoomNumber = realestate.RoomNumber;
             vm.BuildingType = realestate.BuildingType;
-            vm.CreatedAt = realestate.CreatedAt;
-            vm.ModifiedAt = realestate.ModifiedAt;
+            vm.CreatedAt = (DateTime)realestate.CreatedAt;
+            vm.ModifiedAt = (DateTime)realestate.ModifiedAt;
 
-            return View("CreateUpdate", vm);
+            return View("CreateModify", vm);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(RealEstateCreateUpdateViewModel vm)
+        public async Task<IActionResult> Modify(RealestateCreateModifyViewModel vm)
         {
             var dto = new RealEstateDto()
             {
@@ -114,7 +113,7 @@ namespace TARge25Shop.Controllers
                 ModifiedAt = vm.ModifiedAt,
             };
 
-            var result = await _RealEstateServices.Update(dto);
+            var result = await _RealEstateServices.Modify(dto);
 
             if (result == null)
             {
@@ -142,8 +141,8 @@ namespace TARge25Shop.Controllers
             vm.Location = realestate.Location;
             vm.RoomNumber = realestate.RoomNumber;
             vm.BuildingType = realestate.BuildingType;
-            vm.CreatedAt = realestate.CreatedAt;
-            vm.ModifiedAt = realestate.ModifiedAt;
+            vm.CreatedAt = (DateTime)realestate.CreatedAt;
+            vm.ModifiedAt = (DateTime)realestate.ModifiedAt;
 
             return View(vm);
         }
@@ -165,9 +164,9 @@ namespace TARge25Shop.Controllers
         //teha Detaili vaate meetod
         public async Task<IActionResult> Details(Guid id)
         {
-            var realastate = await _RealEstateServices.DetailAsync(id);
+            var realestate = await _RealEstateServices.DetailAsync(id);
 
-            if (realastate == null)
+            if (realestate == null)
             {
                 return NotFound();
             }
@@ -176,13 +175,13 @@ namespace TARge25Shop.Controllers
             //see on vaheinstants domaini ja vm vahel
             var vm = new RealEstateDetailsViewModel();
 
-            vm.Id = realastate.Id;
-            vm.Area = realastate.Area;
-            vm.Location = realastate.Location;
-            vm.RoomNumber = realastate.RoomNumber;
-            vm.BuildingType = realastate.BuildingType;
-            vm.CreatedAt = realastate.CreatedAt;
-            vm.ModifiedAt = realastate.ModifiedAt;
+            vm.Id = realestate.Id;
+            vm.Area = realestate.Area;
+            vm.Location = realestate.Location;
+            vm.RoomNumber = realestate.RoomNumber;
+            vm.BuildingType = realestate.BuildingType;
+            vm.CreatedAt = (DateTime)realestate.CreatedAt;
+            vm.ModifiedAt = (DateTime)realestate.ModifiedAt;
 
             return View(vm);
         }

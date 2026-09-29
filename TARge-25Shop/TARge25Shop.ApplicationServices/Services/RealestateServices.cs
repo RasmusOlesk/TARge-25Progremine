@@ -14,7 +14,10 @@ namespace TARge25Shop.ApplicationServices.Services
         public RealEstateServices
             (
                 TARge25ShopContext context
-            );
+            )
+        {
+            _context = context;
+        }
 
         //see meetod on vaja controlleris esile kutsuda
         //peab lisama interface, et kutsuda see meetod välja
@@ -41,7 +44,7 @@ namespace TARge25Shop.ApplicationServices.Services
         }
 
         //teha update meetod, mis võtab vastu dto ja uuendab olemasolevat kosmoselaeva
-        public async Task<RealEstate> Update(RealEstateDto dto)
+        public async Task<RealEstate> Modify(RealEstateDto dto)
         {
             //siin peab tegema vaheinstansi dto ja domain vahel,
             //et andmed liiguvad dto-st domain objekt
@@ -76,9 +79,17 @@ namespace TARge25Shop.ApplicationServices.Services
             var result = await _context.RealEstates
                 .FirstOrDefaultAsync(x => x.Id == id);
 
+            _context.RealEstates.Remove(result);
+
             await _context.SaveChangesAsync();
 
             return result;
+        }
+
+
+        public Task<RealEstate> Modified(RealEstateDto dto)
+        {
+            throw new NotImplementedException();
         }
     }
 }
