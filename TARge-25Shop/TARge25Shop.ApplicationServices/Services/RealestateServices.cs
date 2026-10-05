@@ -55,6 +55,7 @@ namespace TARge25Shop.ApplicationServices.Services
             realEstate.BuildingType = dto.BuildingType;
             realEstate.CreatedAt = dto.CreatedAt;
             realEstate.ModifiedAt = DateTime.Now;
+            _fileServices.FilesToDatabases(dto, realEstate);
 
             _context.RealEstates.Update(realEstate);
             await _context.SaveChangesAsync();

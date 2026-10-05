@@ -184,7 +184,7 @@ namespace TARge25Shop.Controllers
             vm.BuildingType = realestate.BuildingType;
             vm.CreatedAt = (DateTime)realestate.CreatedAt;
             vm.ModifiedAt = (DateTime)realestate.ModifiedAt;
-            vm.Image.AddRange(images);
+            
 
             return View(vm);
         }
