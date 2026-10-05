@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TARge25Shop.Core.Domain;
+using TARge25SHop.Core.Domain;
 
 
 namespace TARge25Shop.Data
@@ -16,5 +17,7 @@ namespace TARge25Shop.Data
         public DbSet<Spaceship> Spaceships { get; set; }
         public DbSet<FileToApi> FileToApis { get; set; }
         public DbSet<RealEstate> RealEstates { get; set; }
+
+        public DbSet<FileToDatabase> FilesToDatabases { get; set; }
     }
 }

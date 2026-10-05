@@ -4,6 +4,7 @@ using TARge25Shop.Core.Dto;
 using TARge25Shop.Core.ServiceInterface;
 using TARge25Shop.Data;
 using TARge25Shop.Models.Realestate;
+using TARge25SHop.Core.Dto;
 
 namespace TARge25Shop.Controllers
 {
@@ -59,6 +60,16 @@ namespace TARge25Shop.Controllers
                 Location = vm.Location,
                 RoomNumber = vm.RoomNumber,
                 BuildingType = vm.BuildingType,
+                //failide lisamine
+                Files = vm.Files,
+                Image = vm.Image
+                    .Select(x => new FileToDatabaseDto
+                    {
+                        Id = x.ImageId,
+                        ImageData = x.ImageData,
+                        ImageTitle = x.ImageTitle,
+                        RealEstateId = x.RealEstateId
+                    }).ToArray()
             };
 
             //Nüüd kutsume teenuse välja, et luua uus kosmoselaev. See on

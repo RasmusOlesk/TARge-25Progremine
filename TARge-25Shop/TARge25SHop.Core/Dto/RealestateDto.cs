@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using TARge25SHop.Core.Dto;
 
 namespace TARge25Shop.Core.Dto
 {
@@ -9,6 +10,10 @@ namespace TARge25Shop.Core.Dto
         public string Location { get; set; }
         public int RoomNumber { get; set; }
         public string BuildingType { get; set; }
+
+        public List<IFormFile> Files { get; set; }
+        public IEnumerable<FileToDatabaseDto> Image { get; set; }
+            = new List<FileToDatabaseDto>();
 
       
         public DateTime CreatedAt { get; set; }

@@ -4,6 +4,8 @@ using TARge25Shop.Core.Domain;
 using TARge25Shop.Core.Dto;
 using TARge25Shop.Core.ServiceInterface;
 using TARge25Shop.Data;
+using TARge25SHop.Core.Domain;
+using TARge25SHop.Core.Dto;
 
 
 namespace TARge25Shop.ApplicationServices.Services
@@ -64,6 +66,11 @@ namespace TARge25Shop.ApplicationServices.Services
             }
         }
 
+        public void FilesToDatabases(RealEstateDto dto, RealEstate realEstate)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<FileToApi> RemoveImageFromApi(FileToApiDto dto)
         {
             //kui soovin kustutada faili, siis pean läbi Id pildi ülesse otsima
@@ -113,5 +120,38 @@ namespace TARge25Shop.ApplicationServices.Services
 
             return null;
         }
+
+        public void UploadFilesToDatabase(RealEstateDto dto, RealEstate domain)
+        {
+            // Kontroll, kas faile on
+            if (dto.Files != null && dto.Files.Count > 0)
+            {
+                //tuleb kasutada foreachi, et mitu faili ülesse laadida
+                foreach (var file in dto.Files)
+                {
+                    using (var target = new MemoryStream())
+                    {
+                        FileToDatabase files = new FileToDatabase()
+                        {
+                            Id = Guid.NewGuid(),
+                            ImageTitle = file.FileName,
+                            RealEstateId = domain.Id
+                        };
+
+                        file.CopyTo(target);
+                        files.ImageData = target.ToArray();
+
+                        _context.FilesToDatabases.AddAsync(files);
+                    }
+                
+                    
+                }
+            }
+
+                // Salvestame muudatused andmebaasi
+                _context.SaveChanges();
+            }
+        }
+
     }
-}
+

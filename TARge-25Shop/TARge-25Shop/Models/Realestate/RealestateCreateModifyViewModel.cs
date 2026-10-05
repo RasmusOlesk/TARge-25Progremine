@@ -1,4 +1,6 @@
-﻿namespace TARge25Shop.Models.Realestate
+﻿using TARge25Shop.Models.Realestate;
+
+namespace TARge25Shop.Models.Realestate
 {
     public class RealestateCreateModifyViewModel
     {
@@ -10,5 +12,8 @@
 
         public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }
+        public List<IFormFile> Files { get; set; }
+        public List<RealestateImageViewModel> Image { get; set; }
+            = new List<RealestateImageViewModel>();
     }
 }

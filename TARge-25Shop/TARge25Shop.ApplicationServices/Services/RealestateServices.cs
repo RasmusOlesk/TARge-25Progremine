@@ -4,27 +4,25 @@ using TARge25Shop.Core.Dto;
 using TARge25Shop.Core.ServiceInterface;
 using TARge25Shop.Data;
 
-
 namespace TARge25Shop.ApplicationServices.Services
 {
     public class RealEstateServices : IRealEstateServices
     {
         private readonly TARge25ShopContext _context;
+        private readonly IFileServices _fileServices;
 
         public RealEstateServices
             (
-                TARge25ShopContext context
+                TARge25ShopContext context,
+                IFileServices fileServices
             )
         {
             _context = context;
+            _fileServices = fileServices;
         }
 
-        //see meetod on vaja controlleris esile kutsuda
-        //peab lisama interface, et kutsuda see meetod välja
         public async Task<RealEstate> Create(RealEstateDto dto)
         {
-            //siin peab tegema vaheinstansi dto ja domain vahel,
-            //et andmed liiguvad dto-st domain objekt
             RealEstate realEstate = new();
 
             realEstate.Id = Guid.NewGuid();
@@ -34,20 +32,20 @@ namespace TARge25Shop.ApplicationServices.Services
             realEstate.BuildingType = dto.BuildingType;
             realEstate.CreatedAt = DateTime.Now;
             realEstate.ModifiedAt = DateTime.Now;
-        
 
-            //andmete salvestamine andmebaasi
+            if (dto.Files != null)
+            {
+                _fileServices.UploadFilesToDatabase(dto, realEstate);
+            }
+
             _context.RealEstates.Add(realEstate);
             await _context.SaveChangesAsync();
 
             return realEstate;
         }
 
-        //teha update meetod, mis võtab vastu dto ja uuendab olemasolevat kosmoselaeva
-        public async Task<RealEstate> Modify(RealEstateDto dto)
+        public async Task<RealEstate> Update(RealEstateDto dto)
         {
-            //siin peab tegema vaheinstansi dto ja domain vahel,
-            //et andmed liiguvad dto-st domain objekt
             RealEstate realEstate = new();
 
             realEstate.Id = dto.Id;
@@ -57,9 +55,7 @@ namespace TARge25Shop.ApplicationServices.Services
             realEstate.BuildingType = dto.BuildingType;
             realEstate.CreatedAt = dto.CreatedAt;
             realEstate.ModifiedAt = DateTime.Now;
-            
 
-            //andmete uuendamine andmebaasis
             _context.RealEstates.Update(realEstate);
             await _context.SaveChangesAsync();
 
@@ -76,18 +72,16 @@ namespace TARge25Shop.ApplicationServices.Services
 
         public async Task<RealEstate> Delete(Guid id)
         {
-            var result = await _context.RealEstates
+            var realestate = await _context.RealEstates
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            _context.RealEstates.Remove(result);
-
+            _context.RealEstates.Remove(realestate);
             await _context.SaveChangesAsync();
 
-            return result;
+            return realestate;
         }
 
-
-        public Task<RealEstate> Modified(RealEstateDto dto)
+        public Task<RealEstate> Modify(RealEstateDto dto)
         {
             throw new NotImplementedException();
         }
