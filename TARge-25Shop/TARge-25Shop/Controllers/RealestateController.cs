@@ -4,6 +4,7 @@ using TARge25Shop.Core.Dto;
 using TARge25Shop.Core.ServiceInterface;
 using TARge25Shop.Data;
 using TARge25Shop.Models.Realestate;
+using TARge25Shop.Models.Spaceship;
 using TARge25SHop.Core.Dto;
 
 namespace TARge25Shop.Controllers
@@ -12,15 +13,19 @@ namespace TARge25Shop.Controllers
     {
         private readonly IRealEstateServices _RealEstateServices;
         private readonly TARge25ShopContext _context;
+        private readonly IFileServices _fileServices;
+
 
         public RealEstateController
             (
                 IRealEstateServices realestateServices,
-                TARge25ShopContext context             
+                TARge25ShopContext context,
+                IFileServices fileServices
             )
         {
             _RealEstateServices = realestateServices;
-            _context = context;      
+            _context = context;
+            _fileServices = fileServices;
         }
 
         public IActionResult Index()
@@ -96,7 +101,15 @@ namespace TARge25Shop.Controllers
                 return NotFound();
             }
 
-           
+            var images = await _context.FilesToDatabases
+                .Where(x => x.RealEstateId == id)
+                .Select(y => new RealestateImageViewModel
+                {
+                    Image = y.ImageTitle,
+                    ImageId = y.Id
+                }).ToArrayAsync();
+
+
             var vm = new RealestateCreateModifyViewModel();
 
             vm.Id = realestate.Id;
@@ -106,6 +119,7 @@ namespace TARge25Shop.Controllers
             vm.BuildingType = realestate.BuildingType;
             vm.CreatedAt = (DateTime)realestate.CreatedAt;
             vm.ModifiedAt = (DateTime)realestate.ModifiedAt;
+            vm.Image.AddRange(images);
 
             return View("CreateModify", vm);
         }
@@ -122,6 +136,14 @@ namespace TARge25Shop.Controllers
                 BuildingType = vm.BuildingType,
                 CreatedAt = vm.CreatedAt,
                 ModifiedAt = vm.ModifiedAt,
+                Files = vm.Files,
+                Image = vm.Image
+                    .Select(x => new FileToDatabaseDto
+                    {
+                        Id = x.ImageId,
+                        ImageTitle = x.ImageTitle,
+                        RealEstateId = x.RealEstateId
+                    }).ToArray()
             };
 
             var result = await _RealEstateServices.Modify(dto);
@@ -144,6 +166,14 @@ namespace TARge25Shop.Controllers
                 return NotFound();
             }
 
+            var images = await _context.FilesToDatabases
+                .Where(x => x.RealestateId == id)
+                .Select(y => new RealestateImageViewModel
+                {
+                    Image = y.ImageTitle,
+                    ImageId = y.Id
+                }).ToArrayAsync();
+
             //see on vaheinstants domaini ja vm vahel
             var vm = new RealEstateDeleteViewModel();
 
@@ -154,6 +184,7 @@ namespace TARge25Shop.Controllers
             vm.BuildingType = realestate.BuildingType;
             vm.CreatedAt = (DateTime)realestate.CreatedAt;
             vm.ModifiedAt = (DateTime)realestate.ModifiedAt;
+            vm.Image.AddRange(images);
 
             return View(vm);
         }
@@ -182,6 +213,14 @@ namespace TARge25Shop.Controllers
                 return NotFound();
             }
 
+            var images = await _context.FilesToDatabases
+                .Where(x => x.RealEstateId == id)
+                .Select(y => new RealestateImageViewModel
+                {
+                    Image = y.ImageTitle,
+                    ImageId = y.Id
+                }).ToArrayAsync();
+
             //tuleb kasutada AddRange, et saada pildid vm kaasa
             //see on vaheinstants domaini ja vm vahel
             var vm = new RealEstateDetailsViewModel();
@@ -193,6 +232,7 @@ namespace TARge25Shop.Controllers
             vm.BuildingType = realestate.BuildingType;
             vm.CreatedAt = (DateTime)realestate.CreatedAt;
             vm.ModifiedAt = (DateTime)realestate.ModifiedAt;
+
 
             return View(vm);
         }

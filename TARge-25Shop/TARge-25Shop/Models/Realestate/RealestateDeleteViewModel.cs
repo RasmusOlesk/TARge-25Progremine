@@ -1,4 +1,6 @@
-﻿namespace TARge25Shop.Models.Realestate
+﻿using TARge25Shop.Models.Spaceship;
+
+namespace TARge25Shop.Models.Realestate
 {
     public class RealEstateDeleteViewModel
     {
@@ -8,7 +10,10 @@
         public int RoomNumber { get; set; }
         public string BuildingType { get; set; }
 
-        
+        public List<ImageViewModel> Image { get; set; }
+            
+
+
         public DateTime CreatedAt { get; set; }
         public DateTime ModifiedAt { get; set; }
     }
