@@ -1,7 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using TARge25Shop.ApplicationServices.Services;
 using TARge25Shop.Core.ServiceInterface;
 using TARge25Shop.Data;
-using Microsoft.EntityFrameworkCore;
+using TARge25SHop.Core.ServiceInterface;
 
 namespace TARge_25Shop
 {
@@ -17,7 +18,7 @@ namespace TARge_25Shop
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddScoped<IKindergartenServices, KindergartenServices>();
-
+            builder.Services.AddScoped<IFileServices, FileServices>();
             builder.Services.AddDbContext<TARge25ShopContext>(options =>
                 options.UseSqlServer(connectionString));
             var app = builder.Build();

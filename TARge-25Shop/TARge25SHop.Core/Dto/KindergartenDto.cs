@@ -1,4 +1,8 @@
-﻿namespace TARge25Shop.Core.Dto
+﻿using TARge25SHop.Core.Dto;
+using Microsoft.AspNetCore.Http;
+
+
+namespace TARge25Shop.Core.Dto
 {
     public class KindergartenDto
     {
@@ -8,6 +12,10 @@
 
         public string TeacherName { get; set; } = string.Empty;
         public int ChildrenCount { get; set; }
+
+        public List<IFormFile> Files { get; set; }
+        public IEnumerable<FileToDatabaseDto> Image { get; set; }
+            = new List<FileToDatabaseDto>();
 
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

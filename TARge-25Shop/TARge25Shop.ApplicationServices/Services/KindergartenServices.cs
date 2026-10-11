@@ -1,8 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Xml;
 using TARge25Shop.Core.Domain;
 using TARge25Shop.Core.Dto;
 using TARge25Shop.Core.ServiceInterface;
 using TARge25Shop.Data;
+using TARge25SHop.Core.Dto;
+using TARge25SHop.Core.ServiceInterface;
 
 
 namespace TARge25Shop.ApplicationServices.Services
@@ -10,13 +13,16 @@ namespace TARge25Shop.ApplicationServices.Services
     public class KindergartenServices : IKindergartenServices
     {
         private readonly TARge25ShopContext _context;
+        private readonly IFileServices _fileServices;
 
         public KindergartenServices
             (
-                TARge25ShopContext context
+                TARge25ShopContext context,
+                IFileServices fileServices
             )
         {
             _context = context;
+            _fileServices = fileServices;
         }
 
         //see meetod on vaja controlleris esile kutsuda
@@ -34,6 +40,11 @@ namespace TARge25Shop.ApplicationServices.Services
             kindergarten.ChildrenCount = dto.ChildrenCount;
             kindergarten.CreatedAt = DateTime.Now;
             kindergarten.UpdatedAt = DateTime.Now;
+
+            if (dto.Files != null)
+            {
+                _fileServices.UploadFilesToDatabase(dto, kindergarten);
+            }
 
             //andmete salvestamine andmebaasi
             _context.Kindergartens.Add(kindergarten);
@@ -56,6 +67,11 @@ namespace TARge25Shop.ApplicationServices.Services
             KinderGarten.ChildrenCount = dto.ChildrenCount;
             KinderGarten.CreatedAt = dto.CreatedAt;
             KinderGarten.UpdatedAt = DateTime.Now;
+
+            if (dto.Files != null)
+            {
+                _fileServices.UploadFilesToDatabase(dto, KinderGarten);
+            }
 
             //andmete salvestamine andmebaasi
             _context.Kindergartens.Update(KinderGarten);
@@ -81,6 +97,16 @@ namespace TARge25Shop.ApplicationServices.Services
         {
             var result = await _context.Kindergartens
                 .FirstOrDefaultAsync(x => x.Id == id);
+
+            var images = await _context.FileToDatabases
+                .Where(x => x.KindergartenId == id)
+                .Select(y => new FileToDatabaseDto
+                {
+                    Id = y.Id,
+
+                }).ToArrayAsync();
+
+            await _fileServices.RemoveImageFromDatabase(images);
 
             _context.Kindergartens.Remove(result);
             await _context.SaveChangesAsync();
