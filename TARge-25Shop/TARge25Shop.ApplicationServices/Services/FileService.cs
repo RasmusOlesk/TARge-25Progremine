@@ -59,8 +59,7 @@ namespace TARge25Shop.ApplicationServices.Services
         public async Task<FileToDatabase> RemoveImageFromDatabase(FileToDatabaseDto dto)
         {
             var image = await _context.FileToDatabases
-                .Where(x => x.Id == dto.Id)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(x => x.Id == dto.Id);
 
             _context.FileToDatabases.Remove(image);
             await _context.SaveChangesAsync();
@@ -68,32 +67,31 @@ namespace TARge25Shop.ApplicationServices.Services
             return image;
         }
 
-        public Task RemoveImageFromDatabase(FileToDatabaseDto[] images)
+        public async Task<FileToDatabase> RemoveImagesFromDatabase(FileToDatabaseDto dto)
         {
-            throw new NotImplementedException();
+            var image = await _context.FileToDatabases
+                .FirstOrDefaultAsync(x => x.Id == dto.Id);
+
+            _context.FileToDatabases.Remove(image);
+            await _context.SaveChangesAsync();
+
+            return image;
         }
 
-
-
-        //Teha parandus, et siin ei oleks return null
-        public async Task<FileToDatabase> RemoveImagesFromDatabase(FileToDatabaseDto[] dtos)
+        public async Task RemoveImageFromDatabase(FileToDatabaseDto[] images)
         {
-            foreach (var dto in dtos)
+            foreach (var dto in images)
             {
                 var image = await _context.FileToDatabases
-                    .Where(x => x.Id == dto.Id)
-                    .FirstOrDefaultAsync();
+                    .FirstOrDefaultAsync(x => x.Id == dto.Id);
 
-                _context.FileToDatabases.Remove(image);
-                await _context.SaveChangesAsync();
+                if (image != null)
+                {
+                    _context.FileToDatabases.Remove(image);
+                }
             }
 
-            return null;
-        }
-
-        public Task<FileToDatabase> RemoveImagesFromDatabase(FileToDatabaseDto dto)
-        {
-            throw new NotImplementedException();
+            await _context.SaveChangesAsync();
         }
     }
 }
