@@ -1,16 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TARge25Shop.ApplicationServices.Services;
 using TARge25Shop.Core.ServiceInterface;
-using TARge25Shop.Data;
 using TARge25Shop.Models.ChuckNorris;
 
 namespace TARge25Shop.Controllers
 {
     public class ChuckNorrisController : Controller
     {
-
         private readonly IChuckNorrisServices _chuckNorrisServices;
-
 
         public ChuckNorrisController
             (
@@ -19,16 +15,11 @@ namespace TARge25Shop.Controllers
         {
             _chuckNorrisServices = chuckNorrisServices;
         }
+
         public IActionResult Index()
         {
             return View();
         }
-
-        //[HttpPost]
-        //public IActionResult SearchChuckNorrisJoke()
-        //{
-         //  return RedirectToAction(nameof(Joke));
-        //}
 
         [HttpGet]
         public async Task<IActionResult> Joke()

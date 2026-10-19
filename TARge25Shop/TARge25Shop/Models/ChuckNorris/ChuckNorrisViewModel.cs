@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace TARge25Shop.Models.ChuckNorris
+﻿namespace TARge25Shop.Models.ChuckNorris
 {
     public class ChuckNorrisViewModel
     {

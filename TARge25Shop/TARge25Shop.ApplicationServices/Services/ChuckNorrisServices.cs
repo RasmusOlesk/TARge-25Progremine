@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.Json;
+﻿using System.Text.Json;
 using TARge25Shop.Core.Dto;
 using TARge25Shop.Core.ServiceInterface;
 
@@ -9,7 +6,6 @@ namespace TARge25Shop.ApplicationServices.Services
 {
     public class ChuckNorrisServices : IChuckNorrisServices
     {
-
         private readonly HttpClient _httpClient;
 
         public ChuckNorrisServices
@@ -23,7 +19,6 @@ namespace TARge25Shop.ApplicationServices.Services
         public async Task<ChuckNorrisRootDto> ChuckNorrisResultHttpClient()
         {
             //var response on vaja ühendada https://api.chucknorris.io/jokes/random
-
             var response = await _httpClient.GetAsync("https://api.chucknorris.io/jokes/random");
             //annab veateate, kui response ei ole edukas
             response.EnsureSuccessStatusCode();
@@ -39,7 +34,7 @@ namespace TARge25Shop.ApplicationServices.Services
             //muutuja var joke tuleb deserialiseerida
             var joke = JsonSerializer.Deserialize<ChuckNorrisRootDto>(json, options);
 
-            //null andestavo operaator(!) on turvaline viis kuna API alati tagastab JSON
+            //null andestav operaator(!) on turvaline viis kuna API alati tagastab JSON
             return joke!;
         }
     }
