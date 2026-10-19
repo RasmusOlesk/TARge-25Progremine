@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿
+using System.Text.Json;
 using TARge25Shop.Core.Dto;
 using TARge25Shop.Core.ServiceInterface;
 
@@ -8,34 +9,32 @@ namespace TARge25Shop.ApplicationServices.Services
     {
         private readonly HttpClient _httpClient;
 
-        public CocktailServices
-            (
-                HttpClient httpClient
-            )
+        public CocktailServices(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        public async Task<CocktailRootDto> CocktailResultHttpClient()
+        public async Task<CocktailRootDto> CocktailResultHttpClient(
+            string searchTerm)
         {
-            //var response on vaja ühendada https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita
-            var response = await _httpClient.GetAsync("https://www.thecocktaildb.com/api/json/v1/1/search.php?s=");
-            //annab veateate, kui response ei ole edukas
+            var url =
+                $"https://www.thecocktaildb.com/api/json/v1/1/search.php?s={Uri.EscapeDataString(searchTerm)}";
+
+            var response = await _httpClient.GetAsync(url);
+
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
 
             var options = new JsonSerializerOptions
             {
-                //olek true laseb ignoreerida täpset tähe suurustundlikust JSON muutujate nimes
                 PropertyNameCaseInsensitive = true
             };
 
-            //muutuja var joke tuleb deserialiseerida
-            var drink = JsonSerializer.Deserialize<CocktailRootDto>(json, options);
+            var drink =
+                JsonSerializer.Deserialize<CocktailRootDto>(json, options);
 
-            //null andestav operaator(!) on turvaline viis kuna API alati tagastab JSON
-            return drink!;
+            return drink ?? new CocktailRootDto();
         }
     }
 }

@@ -4,6 +4,7 @@ namespace TARge25Shop.Core.ServiceInterface
 {
     public interface ICocktailServices
     {
-        Task<CocktailRootDto> CocktailResultHttpClient();
+        Task<CocktailRootDto> CocktailResultHttpClient(
+            string searchTerm);
     }
 }

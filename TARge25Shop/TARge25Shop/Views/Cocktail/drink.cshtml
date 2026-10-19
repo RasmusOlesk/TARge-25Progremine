@@ -1,236 +1,152 @@
 ﻿@model TARge25Shop.Models.Cocktail.CocktailViewModel
 
-
 <div class="container">
-    <h2>The cocktail</h2>
-    @* <h2>@Html.DisplayFor(model => model.Categories)</h2> *@
-    <hr />
-    <dl class="row text-dark">
-        <div class="form-group row">
-            <label asp-for="strDrink" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strDrink)
-        </div>
+    <h2>Search Cocktails</h2>
 
-        <div class="form-group row">
-            <label asp-for="strDrinkAlternate" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strDrinkAlternate)
-        </div>
+    <form asp-controller="Cocktail"
+          asp-action="Drink"
+          method="get"
+          class="mb-4">
 
-        <div class="form-group row">
-            <label asp-for="strTags" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strTags)
-        </div>
+        <div class="input-group">
+            <input type="text"
+                   name="searchTerm"
+                   class="form-control"
+                   placeholder="Enter a cocktail or a letter"
+                   value="@Context.Request.Query["searchTerm"]"
+                   required />
 
-        <div class="form-group row">
-            <label asp-for="strVideo" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strVideo)
+            <button type="submit" class="btn btn-primary">
+                Search
+            </button>
         </div>
+    </form>
 
-        <div class="form-group row">
-            <label asp-for="strCategory" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strCategory)
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-warning">
+            @ViewBag.Message
         </div>
+    }
 
-        <div class="form-group row">
-            <label asp-for="strIBA" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strIBA)
-        </div>
+    @if (Model != null && !string.IsNullOrEmpty(Model.strDrink))
+    {
+        <hr />
 
-        <div class="form-group row">
-            <label asp-for="strAlcoholic" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strAlcoholic)
-        </div>
+        <h2>@Model.strDrink</h2>
 
-        <div class="form-group row">
-            <label asp-for="strGlass" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strGlass)
-        </div>
+        @if (!string.IsNullOrEmpty(Model.strDrinkThumb))
+        {
+            <img src="@Model.strDrinkThumb"
+                 alt="@Model.strDrink"
+                 class="img-fluid rounded mb-3"
+                 style="max-width: 300px;" />
+        }
 
-        <div class="form-group row">
-            <label asp-for="strInstructions" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strInstructions)
-        </div>
+        <dl class="row text-dark">
 
-        <div class="form-group row">
-            <label asp-for="strInstructionsES" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strInstructionsES)
-        </div>
+            <dt class="col-sm-3">Alternate name</dt>
+            <dd class="col-sm-9">@Model.strDrinkAlternate</dd>
 
-        <div class="form-group row">
-            <label asp-for="strInstructionsDE" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strInstructionsDE)
-        </div>
+            <dt class="col-sm-3">Tags</dt>
+            <dd class="col-sm-9">@Model.strTags</dd>
 
-        <div class="form-group row">
-            <label asp-for="strInstructionsFR" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strInstructionsFR)
-        </div>
+            <dt class="col-sm-3">Category</dt>
+            <dd class="col-sm-9">@Model.strCategory</dd>
 
-        <div class="form-group row">
-            <label asp-for="strInstructionsIT" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strInstructionsIT)
-        </div>
+            <dt class="col-sm-3">IBA</dt>
+            <dd class="col-sm-9">@Model.strIBA</dd>
 
-        <div class="form-group row">
-            <label asp-for="strDrinkThumb" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strDrinkThumb)
-        </div>
+            <dt class="col-sm-3">Alcoholic</dt>
+            <dd class="col-sm-9">@Model.strAlcoholic</dd>
 
-        <div class="form-group row">
-            <label asp-for="strIngredient1" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strIngredient1)
-        </div>
+            <dt class="col-sm-3">Glass</dt>
+            <dd class="col-sm-9">@Model.strGlass</dd>
 
-        <div class="form-group row">
-            <label asp-for="strIngredient2" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strIngredient2)
-        </div>
+            <dt class="col-sm-3">Instructions</dt>
+            <dd class="col-sm-9">@Model.strInstructions</dd>
 
-        <div class="form-group row">
-            <label asp-for="strIngredient3" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strIngredient3)
-        </div>
+            <dt class="col-sm-3">Video</dt>
+            <dd class="col-sm-9">
+                @if (!string.IsNullOrEmpty(Model.strVideo))
+                {
+                    <a href="@Model.strVideo" target="_blank">Watch video</a>
+                }
+            </dd>
 
-        <div class="form-group row">
-            <label asp-for="strIngredient4" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strIngredient4)
-        </div>
+        </dl>
 
-        <div class="form-group row">
-            <label asp-for="strIngredient5" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strIngredient5)
-        </div>
+        <h4>Ingredients and measurements</h4>
 
-        <div class="form-group row">
-            <label asp-for="strIngredient6" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strIngredient6)
-        </div>
+        <ul>
+            @if (!string.IsNullOrWhiteSpace(Model.strIngredient1))
+            {
+                <li>@Model.strMeasure1 @Model.strIngredient1</li>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.strIngredient2))
+            {
+                <li>@Model.strMeasure2 @Model.strIngredient2</li>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.strIngredient3))
+            {
+                <li>@Model.strMeasure3 @Model.strIngredient3</li>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.strIngredient4))
+            {
+                <li>@Model.strMeasure4 @Model.strIngredient4</li>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.strIngredient5))
+            {
+                <li>@Model.strMeasure5 @Model.strIngredient5</li>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.strIngredient6))
+            {
+                <li>@Model.strMeasure6 @Model.strIngredient6</li>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.strIngredient7))
+            {
+                <li>@Model.strMeasure7 @Model.strIngredient7</li>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.strIngredient8))
+            {
+                <li>@Model.strMeasure8 @Model.strIngredient8</li>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.strIngredient9))
+            {
+                <li>@Model.strMeasure9 @Model.strIngredient9</li>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.strIngredient10))
+            {
+                <li>@Model.strMeasure10 @Model.strIngredient10</li>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.strIngredient11))
+            {
+                <li>@Model.strMeasure11 @Model.strIngredient11</li>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.strIngredient12))
+            {
+                <li>@Model.strMeasure12 @Model.strIngredient12</li>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.strIngredient13))
+            {
+                <li>@Model.strMeasure13 @Model.strIngredient13</li>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.strIngredient14))
+            {
+                <li>@Model.strMeasure14 @Model.strIngredient14</li>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.strIngredient15))
+            {
+                <li>@Model.strMeasure15 @Model.strIngredient15</li>
+            }
+        </ul>
+    }
 
-        <div class="form-group row">
-            <label asp-for="strIngredient7" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strIngredient7)
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="strIngredient8" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strIngredient8)
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="strIngredient9" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strIngredient9)
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="strIngredient10" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strIngredient10)
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="strIngredient11" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strIngredient11)
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="strIngredient12" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strIngredient12)
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="strIngredient13" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strIngredient13)
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="strIngredient14" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strIngredient14)
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="strIngredient15" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strIngredient15)
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="strMeasure1" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strMeasure1)
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="strMeasure2" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strMeasure2)
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="strMeasure3" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strMeasure3)
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="strMeasure4" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strMeasure4)
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="strMeasure5" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strMeasure5)
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="strMeasure6" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strMeasure6)
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="strMeasure7" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strMeasure7)
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="strMeasure8" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strMeasure8)
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="strMeasure9" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strMeasure9)
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="strMeasure10" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strMeasure10)
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="strMeasure11" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strMeasure11)
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="strMeasure12" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strMeasure12)
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="strMeasure13" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strMeasure13)
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="strMeasure14" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strMeasure14)
-        </div>
-
-        <div class="form-group row">
-            <label asp-for="strMeasure15" class="col-sm-2 col-form-label"></label>
-            @Html.DisplayFor(model => model.strMeasure15)
-        </div>
-
-    </dl>
     <hr />
 
-    <div>
- 
-        <a asp-action="Index" asp-controller="cocktail" class="btn btn-success">Back</a>
-    </div>
+    <a asp-action="Index"
+           asp-controller="Cocktail"
+           class="btn btn-success">
+        Back
+    </a>
 </div>

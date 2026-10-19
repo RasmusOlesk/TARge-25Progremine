@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
 using TARge25Shop.Core.ServiceInterface;
 using TARge25Shop.Models.Cocktail;
 
@@ -8,10 +9,7 @@ namespace TARge25Shop.Controllers
     {
         private readonly ICocktailServices _cocktailServices;
 
-        public CocktailController
-            (
-                ICocktailServices cocktailServices
-            )
+        public CocktailController(ICocktailServices cocktailServices)
         {
             _cocktailServices = cocktailServices;
         }
@@ -21,71 +19,84 @@ namespace TARge25Shop.Controllers
             return View();
         }
 
+
         [HttpGet]
-        public async Task<IActionResult> Drink()
+        public async Task<IActionResult> Drink(string? searchTerm)
         {
-            var drink = await _cocktailServices.CocktailResultHttpClient();
+            if (string.IsNullOrWhiteSpace(searchTerm))
+            {
+                return View("Drink");
+            }
 
-            CocktailViewModel vm = new();
+            var result = await _cocktailServices
+                .CocktailResultHttpClient(searchTerm);
 
-            //vm.Categories = drink.Categories;
-            vm.strDrink = drink.strDrink;
-            vm.strDrinkAlternate = drink.strDrinkAlternate;
-            vm.strTags = drink.strTags;
-            vm.strVideo = drink.strVideo;
-            vm.strCategory = drink.strCategory;
-            vm.strIBA = drink.strIBA;
-            vm.strDrink = drink.strDrink;
-            vm.strAlcoholic = drink.strAlcoholic;
-            vm.strGlass = drink.strGlass;
-            vm.strInstructions = drink.strInstructions;
-            vm.strInstructionsES = drink.strInstructionsES;
-            vm.strInstructionsDE = drink.strInstructionsDE;
-            vm.strInstructionsFR = drink.strInstructionsFR;
-            vm.strInstructionsIT = drink.strInstructionsIT;
-            vm.strDrinkThumb = drink.strDrinkThumb;
-            vm.strIngredient1 = drink.strIngredient1;
-            vm.strIngredient2 = drink.strIngredient2;
-            vm.strIngredient3 = drink.strIngredient3;
-            vm.strIngredient4 = drink.strIngredient4;
-            vm.strIngredient5 = drink.strIngredient5;
-            vm.strIngredient6 = drink.strIngredient6;
-            vm.strIngredient7 = drink.strIngredient7;
-            vm.strIngredient8 = drink.strIngredient8;
-            vm.strIngredient9 = drink.strIngredient9;
-            vm.strIngredient10 = drink.strIngredient10;
-            vm.strIngredient11 = drink.strIngredient11;
-            vm.strIngredient12 = drink.strIngredient12;
-            vm.strIngredient13 = drink.strIngredient13;
-            vm.strIngredient14 = drink.strIngredient14;
-            vm.strIngredient15 = drink.strIngredient15;
-            vm.strMeasure1 = drink.strMeasure1;
-            vm.strMeasure2 = drink.strMeasure2;
-            vm.strMeasure3 = drink.strMeasure3;
-            vm.strMeasure4 = drink.strMeasure4;
-            vm.strMeasure5 = drink.strMeasure5;
-            vm.strMeasure6 = drink.strMeasure6;
-            vm.strMeasure7 = drink.strMeasure7;
-            vm.strMeasure8 = drink.strMeasure8;
-            vm.strMeasure9 = drink.strMeasure9;
-            vm.strMeasure10 = drink.strMeasure10;
-            vm.strMeasure11 = drink.strMeasure11;
-            vm.strMeasure12 = drink.strMeasure12;
-            vm.strMeasure13 = drink.strMeasure13;
-            vm.strMeasure14 = drink.strMeasure14;
-            vm.strMeasure15 = drink.strMeasure15;
-            vm.strImageSource = drink.strImageSource;
-            vm.strImageAttribution = drink.strImageAttribution;
-            vm.strCreativeCommonsConfirmed = drink.strCreativeCommonsConfirmed;
-            vm.dateModified = drink.dateModified;
+            var cocktail = result.Drinks?.FirstOrDefault();
 
+            if (cocktail == null)
+            {
+                ViewBag.Message = $"No drinks found for '{searchTerm}'.";
+                return View("Drink");
+            }
 
+            var vm = new CocktailViewModel
+            {
+                strDrink = cocktail.StrDrink,
+                strDrinkAlternate = cocktail.StrDrinkAlternate,
+                strTags = cocktail.StrTags,
+                strVideo = cocktail.StrVideo,
+                strCategory = cocktail.StrCategory,
+                strIBA = cocktail.StrIBA,
+                strAlcoholic = cocktail.StrAlcoholic,
+                strGlass = cocktail.StrGlass,
+                strInstructions = cocktail.StrInstructions,
+                strInstructionsES = cocktail.StrInstructionsES,
+                strInstructionsDE = cocktail.StrInstructionsDE,
+                strInstructionsFR = cocktail.StrInstructionsFR,
+                strInstructionsIT = cocktail.StrInstructionsIT,
+                strDrinkThumb = cocktail.StrDrinkThumb,
 
+                strIngredient1 = cocktail.StrIngredient1,
+                strIngredient2 = cocktail.StrIngredient2,
+                strIngredient3 = cocktail.StrIngredient3,
+                strIngredient4 = cocktail.StrIngredient4,
+                strIngredient5 = cocktail.StrIngredient5,
+                strIngredient6 = cocktail.StrIngredient6,
+                strIngredient7 = cocktail.StrIngredient7,
+                strIngredient8 = cocktail.StrIngredient8,
+                strIngredient9 = cocktail.StrIngredient9,
+                strIngredient10 = cocktail.StrIngredient10,
+                strIngredient11 = cocktail.StrIngredient11,
+                strIngredient12 = cocktail.StrIngredient12,
+                strIngredient13 = cocktail.StrIngredient13,
+                strIngredient14 = cocktail.StrIngredient14,
+                strIngredient15 = cocktail.StrIngredient15,
 
+                strMeasure1 = cocktail.StrMeasure1,
+                strMeasure2 = cocktail.StrMeasure2,
+                strMeasure3 = cocktail.StrMeasure3,
+                strMeasure4 = cocktail.StrMeasure4,
+                strMeasure5 = cocktail.StrMeasure5,
+                strMeasure6 = cocktail.StrMeasure6,
+                strMeasure7 = cocktail.StrMeasure7,
+                strMeasure8 = cocktail.StrMeasure8,
+                strMeasure9 = cocktail.StrMeasure9,
+                strMeasure10 = cocktail.StrMeasure10,
+                strMeasure11 = cocktail.StrMeasure11,
+                strMeasure12 = cocktail.StrMeasure12,
+                strMeasure13 = cocktail.StrMeasure13,
+                strMeasure14 = cocktail.StrMeasure14,
+                strMeasure15 = cocktail.StrMeasure15,
 
-
+                strImageSource = cocktail.StrImageSource,
+                strImageAttribution = cocktail.StrImageAttribution,
+                strCreativeCommonsConfirmed =
+                    cocktail.StrCreativeCommonsConfirmed,
+                dateModified = cocktail.DateModified
+            };
 
             return View("Drink", vm);
         }
+
     }
 }
