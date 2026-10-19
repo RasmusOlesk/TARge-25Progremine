@@ -2,6 +2,7 @@
 using TARge25Shop.Core.ServiceInterface;
 using TARge25Shop.Models.ChuckNorris;
 
+
 namespace TARge25Shop.Controllers
 {
     public class ChuckNorrisController : Controller
