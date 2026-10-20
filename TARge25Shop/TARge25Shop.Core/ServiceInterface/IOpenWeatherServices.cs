@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using TARge25Shop.Core.Dto;
 
 namespace TARge25Shop.Core.ServiceInterface
 {
-    internal class IOpenWeatherServices
+    public interface IOpenWeatherServices
     {
+        Task<OpenWeatherRootDto> OpenWeatherResultHttpClient(
+            string searchTerm);
     }
 }

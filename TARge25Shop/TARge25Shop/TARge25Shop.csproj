@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\OpenWeather\" />
     <Folder Include="wwwroot\multipleFileUpload\" />
   </ItemGroup>
 
