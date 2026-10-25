@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
 using TARge25Shop.Core.ServiceInterface;
-using TARge25Shop.Models.Cocktail;
+using TARge25Shop.Models.OpenWeather;
 
 namespace TARge25Shop.Controllers
 {
@@ -19,7 +19,6 @@ namespace TARge25Shop.Controllers
             return View();
         }
 
-
         [HttpGet]
         public async Task<IActionResult> Weather(string? searchTerm)
         {
@@ -28,75 +27,44 @@ namespace TARge25Shop.Controllers
                 return View("Weather");
             }
 
-            var result = await _openWeatherServices
-                .OpenWeatherResultHttpClient(searchTerm);
+            var result = await _openWeatherServices.OpenWeatherResultHttpClient(searchTerm);
 
-            var openweather = result.Drinks?.FirstOrDefault();
-
-            if (openweather == null)
+            if (string.IsNullOrWhiteSpace(result.Name) || result.Main == null)
             {
-                ViewBag.Message = $"No weather found for '{searchTerm}'.";
+                ViewBag.Message = !string.IsNullOrWhiteSpace(result.Message)
+                    ? result.Message
+                    : $"No weather found for '{searchTerm}'.";
                 return View("Weather");
             }
 
-            var vm = new CocktailViewModel
+            var weather = result.Weather?.FirstOrDefault();
+
+            var vm = new OpenWeatherViewModel
             {
-                strDrink = cocktail.StrDrink,
-                strDrinkAlternate = cocktail.StrDrinkAlternate,
-                strTags = cocktail.StrTags,
-                strVideo = cocktail.StrVideo,
-                strCategory = cocktail.StrCategory,
-                strIBA = cocktail.StrIBA,
-                strAlcoholic = cocktail.StrAlcoholic,
-                strGlass = cocktail.StrGlass,
-                strInstructions = cocktail.StrInstructions,
-                strInstructionsES = cocktail.StrInstructionsES,
-                strInstructionsDE = cocktail.StrInstructionsDE,
-                strInstructionsFR = cocktail.StrInstructionsFR,
-                strInstructionsIT = cocktail.StrInstructionsIT,
-                strDrinkThumb = cocktail.StrDrinkThumb,
-
-                strIngredient1 = cocktail.StrIngredient1,
-                strIngredient2 = cocktail.StrIngredient2,
-                strIngredient3 = cocktail.StrIngredient3,
-                strIngredient4 = cocktail.StrIngredient4,
-                strIngredient5 = cocktail.StrIngredient5,
-                strIngredient6 = cocktail.StrIngredient6,
-                strIngredient7 = cocktail.StrIngredient7,
-                strIngredient8 = cocktail.StrIngredient8,
-                strIngredient9 = cocktail.StrIngredient9,
-                strIngredient10 = cocktail.StrIngredient10,
-                strIngredient11 = cocktail.StrIngredient11,
-                strIngredient12 = cocktail.StrIngredient12,
-                strIngredient13 = cocktail.StrIngredient13,
-                strIngredient14 = cocktail.StrIngredient14,
-                strIngredient15 = cocktail.StrIngredient15,
-
-                strMeasure1 = cocktail.StrMeasure1,
-                strMeasure2 = cocktail.StrMeasure2,
-                strMeasure3 = cocktail.StrMeasure3,
-                strMeasure4 = cocktail.StrMeasure4,
-                strMeasure5 = cocktail.StrMeasure5,
-                strMeasure6 = cocktail.StrMeasure6,
-                strMeasure7 = cocktail.StrMeasure7,
-                strMeasure8 = cocktail.StrMeasure8,
-                strMeasure9 = cocktail.StrMeasure9,
-                strMeasure10 = cocktail.StrMeasure10,
-                strMeasure11 = cocktail.StrMeasure11,
-                strMeasure12 = cocktail.StrMeasure12,
-                strMeasure13 = cocktail.StrMeasure13,
-                strMeasure14 = cocktail.StrMeasure14,
-                strMeasure15 = cocktail.StrMeasure15,
-
-                strImageSource = cocktail.StrImageSource,
-                strImageAttribution = cocktail.StrImageAttribution,
-                strCreativeCommonsConfirmed =
-                    cocktail.StrCreativeCommonsConfirmed,
-                dateModified = cocktail.DateModified
+                CityName = result.Name,
+                Country = result.Sys?.Country ?? string.Empty,
+                Temperature = result.Main.Temp ?? 0,
+                FeelsLike = result.Main.FeelsLike ?? 0,
+                TempMin = result.Main.TempMin ?? 0,
+                TempMax = result.Main.TempMax ?? 0,
+                Pressure = result.Main.Pressure ?? 0,
+                Humidity = result.Main.Humidity ?? 0,
+                WindSpeed = result.Wind?.Speed ?? 0,
+                WindDegrees = result.Wind?.Deg ?? 0,
+                Cloudiness = result.Clouds?.All ?? 0,
+                Visibility = result.Visibility ?? 0,
+                Description = weather?.Description ?? "No description available",
+                Icon = weather?.Icon ?? string.Empty,
+                Sunrise = result.Sys?.Sunrise is long sunrise
+                    ? DateTimeOffset.FromUnixTimeSeconds(sunrise).LocalDateTime
+                    : DateTime.MinValue,
+                Sunset = result.Sys?.Sunset is long sunset
+                    ? DateTimeOffset.FromUnixTimeSeconds(sunset).LocalDateTime
+                    : DateTime.MinValue
             };
 
             return View("Weather", vm);
         }
-
     }
 }
+

@@ -6,163 +6,132 @@ namespace TARge25Shop.Core.Dto
 {
     public class OpenWeatherRootDto
     {
-        [JsonPropertyName("drinks")]
-        public List<CocktailDto>? Drinks { get; set; }
+        [JsonPropertyName("coord")]
+        public CoordDto? Coord { get; set; }
+
+        [JsonPropertyName("weather")]
+        public List<WeatherDto>? Weather { get; set; }
+
+        [JsonPropertyName("base")]
+        public string? Base { get; set; }
+
+        [JsonPropertyName("main")]
+        public MainDto? Main { get; set; }
+
+        [JsonPropertyName("visibility")]
+        public int? Visibility { get; set; }
+
+        [JsonPropertyName("wind")]
+        public WindDto? Wind { get; set; }
+
+        [JsonPropertyName("clouds")]
+        public CloudsDto? Clouds { get; set; }
+
+        [JsonPropertyName("dt")]
+        public long? Dt { get; set; }
+
+        [JsonPropertyName("sys")]
+        public SysDto? Sys { get; set; }
+
+        [JsonPropertyName("timezone")]
+        public int? Timezone { get; set; }
+
+        [JsonPropertyName("id")]
+        public long? Id { get; set; }
+
+        [JsonPropertyName("name")]
+        public string? Name { get; set; }
+
+        [JsonPropertyName("cod")]
+        public int? Cod { get; set; }
+
+        [JsonPropertyName("message")]
+        public string? Message { get; set; }
     }
 
-    public class OpenWeatherDto
+    public class CoordDto
     {
-        [JsonPropertyName("idDrink")]
-        public string? IdDrink { get; set; }
+        [JsonPropertyName("lon")]
+        public double? Lon { get; set; }
 
-        [JsonPropertyName("strDrink")]
-        public string? StrDrink { get; set; }
+        [JsonPropertyName("lat")]
+        public double? Lat { get; set; }
+    }
 
-        [JsonPropertyName("strDrinkAlternate")]
-        public string? StrDrinkAlternate { get; set; }
+    public class WeatherDto
+    {
+        [JsonPropertyName("id")]
+        public int? Id { get; set; }
 
-        [JsonPropertyName("strTags")]
-        public string? StrTags { get; set; }
+        [JsonPropertyName("main")]
+        public string? Main { get; set; }
 
-        [JsonPropertyName("strVideo")]
-        public string? StrVideo { get; set; }
+        [JsonPropertyName("description")]
+        public string? Description { get; set; }
 
-        [JsonPropertyName("strCategory")]
-        public string? StrCategory { get; set; }
+        [JsonPropertyName("icon")]
+        public string? Icon { get; set; }
+    }
 
-        [JsonPropertyName("strIBA")]
-        public string? StrIBA { get; set; }
+    public class MainDto
+    {
+        [JsonPropertyName("temp")]
+        public double? Temp { get; set; }
 
-        [JsonPropertyName("strAlcoholic")]
-        public string? StrAlcoholic { get; set; }
+        [JsonPropertyName("feels_like")]
+        public double? FeelsLike { get; set; }
 
-        [JsonPropertyName("strGlass")]
-        public string? StrGlass { get; set; }
+        [JsonPropertyName("temp_min")]
+        public double? TempMin { get; set; }
 
-        [JsonPropertyName("strInstructions")]
-        public string? StrInstructions { get; set; }
+        [JsonPropertyName("temp_max")]
+        public double? TempMax { get; set; }
 
-        [JsonPropertyName("strInstructionsES")]
-        public string? StrInstructionsES { get; set; }
+        [JsonPropertyName("pressure")]
+        public double? Pressure { get; set; }
 
-        [JsonPropertyName("strInstructionsDE")]
-        public string? StrInstructionsDE { get; set; }
+        [JsonPropertyName("humidity")]
+        public double? Humidity { get; set; }
 
-        [JsonPropertyName("strInstructionsFR")]
-        public string? StrInstructionsFR { get; set; }
+        [JsonPropertyName("sea_level")]
+        public double? SeaLevel { get; set; }
 
-        [JsonPropertyName("strInstructionsIT")]
-        public string? StrInstructionsIT { get; set; }
+        [JsonPropertyName("grnd_level")]
+        public double? GrndLevel { get; set; }
+    }
 
-        [JsonPropertyName("strInstructionsZH-HANS")]
-        public string? StrInstructionsZH_HANS { get; set; }
+    public class WindDto
+    {
+        [JsonPropertyName("speed")]
+        public double? Speed { get; set; }
 
-        [JsonPropertyName("strInstructionsZH-HANT")]
-        public string? StrInstructionsZH_HANT { get; set; }
+        [JsonPropertyName("deg")]
+        public int? Deg { get; set; }
+    }
 
-        [JsonPropertyName("strDrinkThumb")]
-        public string? StrDrinkThumb { get; set; }
+    public class CloudsDto
+    {
+        [JsonPropertyName("all")]
+        public int? All { get; set; }
+    }
 
-        [JsonPropertyName("strIngredient1")]
-        public string? StrIngredient1 { get; set; }
+    public class SysDto
+    {
+        [JsonPropertyName("type")]
+        public int? Type { get; set; }
 
-        [JsonPropertyName("strIngredient2")]
-        public string? StrIngredient2 { get; set; }
+        [JsonPropertyName("id")]
+        public long? Id { get; set; }
 
-        [JsonPropertyName("strIngredient3")]
-        public string? StrIngredient3 { get; set; }
+        [JsonPropertyName("country")]
+        public string? Country { get; set; }
 
-        [JsonPropertyName("strIngredient4")]
-        public string? StrIngredient4 { get; set; }
+        [JsonPropertyName("sunrise")]
+        public long? Sunrise { get; set; }
 
-        [JsonPropertyName("strIngredient5")]
-        public string? StrIngredient5 { get; set; }
-
-        [JsonPropertyName("strIngredient6")]
-        public string? StrIngredient6 { get; set; }
-
-        [JsonPropertyName("strIngredient7")]
-        public string? StrIngredient7 { get; set; }
-
-        [JsonPropertyName("strIngredient8")]
-        public string? StrIngredient8 { get; set; }
-
-        [JsonPropertyName("strIngredient9")]
-        public string? StrIngredient9 { get; set; }
-
-        [JsonPropertyName("strIngredient10")]
-        public string? StrIngredient10 { get; set; }
-
-        [JsonPropertyName("strIngredient11")]
-        public string? StrIngredient11 { get; set; }
-
-        [JsonPropertyName("strIngredient12")]
-        public string? StrIngredient12 { get; set; }
-
-        [JsonPropertyName("strIngredient13")]
-        public string? StrIngredient13 { get; set; }
-
-        [JsonPropertyName("strIngredient14")]
-        public string? StrIngredient14 { get; set; }
-
-        [JsonPropertyName("strIngredient15")]
-        public string? StrIngredient15 { get; set; }
-
-        [JsonPropertyName("strMeasure1")]
-        public string? StrMeasure1 { get; set; }
-
-        [JsonPropertyName("strMeasure2")]
-        public string? StrMeasure2 { get; set; }
-
-        [JsonPropertyName("strMeasure3")]
-        public string? StrMeasure3 { get; set; }
-
-        [JsonPropertyName("strMeasure4")]
-        public string? StrMeasure4 { get; set; }
-
-        [JsonPropertyName("strMeasure5")]
-        public string? StrMeasure5 { get; set; }
-
-        [JsonPropertyName("strMeasure6")]
-        public string? StrMeasure6 { get; set; }
-
-        [JsonPropertyName("strMeasure7")]
-        public string? StrMeasure7 { get; set; }
-
-        [JsonPropertyName("strMeasure8")]
-        public string? StrMeasure8 { get; set; }
-
-        [JsonPropertyName("strMeasure9")]
-        public string? StrMeasure9 { get; set; }
-
-        [JsonPropertyName("strMeasure10")]
-        public string? StrMeasure10 { get; set; }
-
-        [JsonPropertyName("strMeasure11")]
-        public string? StrMeasure11 { get; set; }
-
-        [JsonPropertyName("strMeasure12")]
-        public string? StrMeasure12 { get; set; }
-
-        [JsonPropertyName("strMeasure13")]
-        public string? StrMeasure13 { get; set; }
-
-        [JsonPropertyName("strMeasure14")]
-        public string? StrMeasure14 { get; set; }
-
-        [JsonPropertyName("strMeasure15")]
-        public string? StrMeasure15 { get; set; }
-
-        [JsonPropertyName("strImageSource")]
-        public string? StrImageSource { get; set; }
-
-        [JsonPropertyName("strImageAttribution")]
-        public string? StrImageAttribution { get; set; }
-
-        [JsonPropertyName("strCreativeCommonsConfirmed")]
-        public string? StrCreativeCommonsConfirmed { get; set; }
-
-        [JsonPropertyName("dateModified")]
-        public string? DateModified { get; set; }
+        [JsonPropertyName("sunset")]
+        public long? Sunset { get; set; }
     }
 }
+
+

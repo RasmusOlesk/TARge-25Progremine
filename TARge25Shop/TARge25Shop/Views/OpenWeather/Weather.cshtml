@@ -1,0 +1,95 @@
+@model TARge25Shop.Models.OpenWeather.OpenWeatherViewModel
+
+<div class="container">
+    <h2>Weather Search</h2>
+
+    <form asp-controller="OpenWeather"
+          asp-action="Weather"
+          method="get"
+          class="mb-4">
+
+        <div class="input-group">
+            <input type="text"
+                   name="searchTerm"
+                   class="form-control"
+                   placeholder="Enter a city name"
+                   value="@Context.Request.Query["searchTerm"]"
+                   required />
+
+            <button type="submit" class="btn btn-primary">
+                Search
+            </button>
+        </div>
+    </form>
+
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-warning">
+            @ViewBag.Message
+        </div>
+    }
+
+    @if (Model != null && !string.IsNullOrEmpty(Model.CityName))
+    {
+        <hr />
+
+        <h3>@Model.CityName, @Model.Country</h3>
+
+        @if (!string.IsNullOrEmpty(Model.Icon))
+        {
+            var iconUrl = "https://openweathermap.org/img/wn/" + Model.Icon + "@" + "2x.png";
+            <img src="@iconUrl"
+                 alt="@Model.Description"
+                 class="img-fluid mb-3"
+                 style="max-width: 120px;" />
+        }
+
+        <p class="lead">@Model.Description</p>
+
+        <dl class="row text-dark">
+            <dt class="col-sm-3">Temperature</dt>
+            <dd class="col-sm-9">@Model.Temperature °C</dd>
+
+            <dt class="col-sm-3">Feels like</dt>
+            <dd class="col-sm-9">@Model.FeelsLike °C</dd>
+
+            <dt class="col-sm-3">Min</dt>
+            <dd class="col-sm-9">@Model.TempMin °C</dd>
+
+            <dt class="col-sm-3">Max</dt>
+            <dd class="col-sm-9">@Model.TempMax °C</dd>
+
+            <dt class="col-sm-3">Humidity</dt>
+            <dd class="col-sm-9">@Model.Humidity%</dd>
+
+            <dt class="col-sm-3">Pressure</dt>
+            <dd class="col-sm-9">@Model.Pressure hPa</dd>
+
+            <dt class="col-sm-3">Wind speed</dt>
+            <dd class="col-sm-9">@Model.WindSpeed m/s</dd>
+
+            <dt class="col-sm-3">Wind degrees</dt>
+            <dd class="col-sm-9">@Model.WindDegrees°</dd>
+
+            <dt class="col-sm-3">Cloudiness</dt>
+            <dd class="col-sm-9">@Model.Cloudiness%</dd>
+
+            <dt class="col-sm-3">Visibility</dt>
+            <dd class="col-sm-9">@Model.Visibility m</dd>
+
+            <dt class="col-sm-3">Sunrise</dt>
+            <dd class="col-sm-9">@Model.Sunrise</dd>
+
+            <dt class="col-sm-3">Sunset</dt>
+            <dd class="col-sm-9">@Model.Sunset</dd>
+        </dl>
+    }
+
+    <hr />
+
+    <a asp-action="Index"
+       asp-controller="OpenWeather"
+       class="btn btn-success">
+        Back
+    </a>
+</div>
