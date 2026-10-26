@@ -18,7 +18,11 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background: black;
+    color: #00ff99;
+    font-family: "Courier New", monospace;
+    overflow-x: hidden;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
@@ -29,3 +33,89 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+p1 {
+    color: #00cc66;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+div1 {
+    color: #00cc66;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+a {
+    color: #00cc66;
+}
+
+li1 {
+    color: #00cc66;
+}
+
+.background-squares {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -3;
+    overflow: hidden;
+}
+
+.square {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: rgba(0, 255, 0, 0.25);
+    animation: moveSquares 12s linear infinite;
+}
+
+@keyframes moveSquares {
+    0% {
+        transform: translateX(-200px);
+    }
+
+    100% {
+        transform: translateX(200vw);
+    }
+}
+
+.code-rain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -2;
+    overflow: hidden;
+}
+
+.rain-stream {
+    position: absolute;
+    top: -100%;
+    color: #00ff99;
+    font-size: 18px;
+    white-space: nowrap;
+    animation: rainFall linear infinite;
+    text-shadow: 0 0 8px #00ff99;
+}
+
+@keyframes rainFall {
+    0% {
+        transform: translateY(-100%);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(120vh);
+        opacity: 0;
+    }
+}
+
+

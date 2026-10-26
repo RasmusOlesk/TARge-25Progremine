@@ -11,34 +11,34 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-black border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TARge25Shop</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <a class="navbar-brand text-success" asp-area="" asp-controller="Home" asp-action="Index">TARge25Shop</a>
+                <button1 class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
-                </button>
+                </button1>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul1 class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-success" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-success" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Spaceship" asp-action="Index">Spaceship</a>
+                            <a class="nav-link text-success" asp-area="" asp-controller="Spaceship" asp-action="Index">Spaceship</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="RealEstate" asp-action="Index">RealEstate</a>
+                            <a class="nav-link text-success" asp-area="" asp-controller="RealEstate" asp-action="Index">RealEstate</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ChuckNorris" asp-action="Index">ChuckNorris</a>
+                            <a class="nav-link text-success" asp-area="" asp-controller="ChuckNorris" asp-action="Index">ChuckNorris</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cocktail" asp-action="Drink">Cocktail</a>
+                            <a class="nav-link text-success" asp-area="" asp-controller="Cocktail" asp-action="Drink">Cocktail</a>
                         </li>
-                    </ul>
+                    </ul1>
                 </div>
             </div>
         </nav>
@@ -50,9 +50,9 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
+        <div1 class="container">
             &copy; 2026 - TARge25Shop - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
+        </div1>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -60,3 +60,64 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+@{
+    Layout = null; // Või sinu tavapärane _Layout
+    ViewData["Title"] = "Matrix & Ruudud Efekt";
+}
+
+<!DOCTYPE html>
+<html lang="et">
+
+<body>
+
+    <div class="background-squares"></div>
+    <div class="code-rain"></div>
+
+    <script>
+        
+        const squareContainer = document.querySelector('.background-squares');
+        for (let i = 0; i < 40; i++) {
+            const sq = document.createElement('div');
+            sq.classList.add('square');
+            sq.style.top = Math.random() * 100 + "%";
+            sq.style.left = Math.random() * 100 + "%";
+            sq.style.animationDuration = 10 + Math.random() * 20 + "s";
+            sq.style.opacity = 0.2 + Math.random() * 0.5;
+            squareContainer.appendChild(sq);
+        }
+
+        
+        const rainContainer = document.querySelector('.code-rain');
+        const chars = "01アイウエオカキクケコｱｲｳｴｵ";
+
+        function createRainStream() {
+            const stream = document.createElement('div');
+            stream.classList.add('rain-stream');
+            
+            const length = 10 + Math.random() * 30;
+            for (let i = 0; i < length; i++) {
+                const char = document.createElement('span');
+                char.textContent = chars[Math.floor(Math.random() * chars.length)];
+                stream.appendChild(char);
+                stream.appendChild(document.createElement('br'));
+            }
+            
+            stream.style.left = Math.random() * 100 + "vw";
+            stream.style.animationDuration = 3 + Math.random() * 5 + "s";
+            
+            rainContainer.appendChild(stream);
+            
+            stream.addEventListener('animationend', () => {
+                stream.remove();
+            });
+        }
+
+        setInterval(createRainStream, 200);
+    </script>
+</body>
+</html>
+
+
+
+
