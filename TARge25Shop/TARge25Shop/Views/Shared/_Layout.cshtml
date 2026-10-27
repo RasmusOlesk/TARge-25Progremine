@@ -88,30 +88,36 @@
         }
 
         
-        const rainContainer = document.querySelector('.code-rain');
-        const chars = "01アイウエオカキクケコｱｲｳｴｵ";
+                    const rainContainer = document.querySelector('.code-rain');
+            const chars = '01アイウエオカキクケコｱｲｳｴｵ';
 
-        function createRainStream() {
-            const stream = document.createElement('div');
-            stream.classList.add('rain-stream');
-            
-            const length = 10 + Math.random() * 30;
-            for (let i = 0; i < length; i++) {
-                const char = document.createElement('span');
-                char.textContent = chars[Math.floor(Math.random() * chars.length)];
-                stream.appendChild(char);
-                stream.appendChild(document.createElement('br'));
+            function createRainStream() {
+                const stream = document.createElement('div');
+                stream.classList.add('rain-stream');
+    
+                const length = 10 + Math.random() * 30;
+    
+                for (let i = 0; i < length; i++) {
+                    const char = document.createElement('span');
+                    char.textContent = chars[Math.floor(Math.random() * chars.length)];
+        
+                    char.style.display = 'inline-block';
+                    char.style.transform = 'rotate(180deg)';
+        
+                    stream.appendChild(char);
+                    stream.appendChild(document.createElement('br'));
+                }
+    
+                stream.style.left = `${Math.random() * 100}vw`;
+                stream.style.animationDuration = `${3 + Math.random() * 5}s`;
+    
+                rainContainer.appendChild(stream);
+    
+                stream.addEventListener('animationend', () => {
+                    stream.remove();
+                });
             }
-            
-            stream.style.left = Math.random() * 100 + "vw";
-            stream.style.animationDuration = 3 + Math.random() * 5 + "s";
-            
-            rainContainer.appendChild(stream);
-            
-            stream.addEventListener('animationend', () => {
-                stream.remove();
-            });
-        }
+
 
         setInterval(createRainStream, 200);
     </script>

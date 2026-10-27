@@ -1,7 +1,14 @@
 ﻿@model TARge25Shop.Models.Cocktail.CocktailViewModel
 
+<style>
+    .custom-placeholder::placeholder {
+        color: #28a745 !important; 
+        opacity: 1;
+    }
+</style>
+
 <div class="container">
-    <h2>Search Cocktails</h2>
+    <h2 class="text-center">Search Cocktails</h2>
 
     <form asp-controller="Cocktail"
           asp-action="Drink"
@@ -11,7 +18,7 @@
         <div class="input-group">
             <input type="text"
                    name="searchTerm"
-                   class="form-control bg-black"
+                   class="form-control bg-black text-white custom-placeholder" 
                    placeholder="Enter a cocktail or a letter"
                    value="@Context.Request.Query["searchTerm"]"
                    required />

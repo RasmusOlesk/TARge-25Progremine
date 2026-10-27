@@ -48,6 +48,11 @@ div1 {
     transition: 0.3s;
 }
 
+::placeholder {
+    color: #00cc66;
+    opacity: 1;
+}
+
 
 
 a {
