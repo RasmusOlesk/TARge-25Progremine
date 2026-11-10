@@ -1,5 +1,44 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model TARge25Shop.Models.Email.EmailViewModel
+
 @{
+    ViewData["Title"] = "Saada e-kiri";
 }
+
+<h1>Saada e-kiri</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="SendEmail" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="To" class="control-label">Saaja</label>
+                <input asp-for="To" class="form-control" type="email" />
+                <span asp-validation-for="To" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Subject" class="control-label">Teema</label>
+                <input asp-for="Subject" class="form-control" required />
+                <span asp-validation-for="Subject" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Body" class="control-label">Sisu</label>
+                <textarea asp-for="Body" class="form-control" rows="5" required></textarea>
+                <span asp-validation-for="Body" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Manused</label>
+                <input type="file" name="files" class="form-control" multiple />
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Saada kiri</button>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Tagasi</a>
+            </div>
+        </form>
+    </div>
+</div>
