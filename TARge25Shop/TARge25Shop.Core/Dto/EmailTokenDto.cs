@@ -4,7 +4,8 @@ using System.Text;
 
 namespace TARge25Shop.Core.Dto
 {
-    internal class EmailTokenDto
+    public class EmailTokenDto : EmailDto
     {
+        public string Token { get; set; } = string.Empty;
     }
 }

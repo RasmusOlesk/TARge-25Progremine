@@ -53,6 +53,15 @@ namespace TARge25Shop.ApplicationServices.Services
                 smtp.Send(email);
                 smtp.Disconnect(true);
             }
+
+
+            public void SendEmailToken(EmailTokenDto dto, string token)
+            {
+            dto.Token = token;
+            //kutsu SendEmail meetodit
+            //peaaegu sama nagu SendEmail meetodis, aga siin on vaja lisada token emaili body-sse
+            //pilte ja faile ei ole vaja lisada
+            }
         }
     }
 }
