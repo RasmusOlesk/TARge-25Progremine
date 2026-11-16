@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TARge25Shop.Core.Domain;
 
@@ -18,6 +20,7 @@ namespace TARge25Shop.Data
         public DbSet<FileToApi> FileToApis { get; set; }
         public DbSet<RealEstate> RealEstates { get; set; }
         public DbSet<FileToDatabase> FileToDatabases { get; set; }
-        public DbSet<IdentityRole> Application { get; set; }
+
+        //public DbSet<IdentityRole> ApplicationUsers { get; set; }
     }
 }

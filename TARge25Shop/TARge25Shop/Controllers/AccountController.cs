@@ -1,11 +1,11 @@
-﻿using Castle.Core.Smtp;
-using Fluent.Infrastructure.FluentModel;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using TARge25Shop.Core.Dto;
 using TARge25Shop.Core.ServiceInterface;
+using TARge25Shop.Core.Domain;
 using TARge25Shop.Models.Account;
+using TARge25Shop.Core.Dto;
+
 
 namespace TARge25Shop.Controllers
 {
@@ -13,7 +13,8 @@ namespace TARge25Shop.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IEmailSender _emailServices;
+        private readonly IEmailServices _emailServices;
+
 
         public AccountController
             (
@@ -36,13 +37,13 @@ namespace TARge25Shop.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel vm)
         {
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser
                 {
-                    UserName = RegisterViewModel.Email,
+                    UserName = vm.Email,
                     Name = vm.Name,
                     Email = vm.Email,
                     City = vm.City
@@ -50,17 +51,18 @@ namespace TARge25Shop.Controllers
 
                 var result = await _userManager.CreateAsync(user, vm.Password);
 
-                if (result.Succeede)
+                if (result.Succeeded)
                 {
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-                    var confirmationLink = Url.Action("ConfirmEmail", "Account",
+                    var confirmationLink =
+                        Url.Action("ConfirmEmail", "Account",
                         new { userId = user.Id, token = token },
                         Request.Scheme);
 
                     EmailTokenDto newsignup = new();
                     newsignup.Token = token;
-                    newsignup.Body = $"Please confirm your account by clicking this link: <a href='{confirmationLink}'>confirm Email></a>
+                    newsignup.Body = $"Please confirm your account by clicking this link: <a href='{confirmationLink}'>Confirm Email</a>";
                     newsignup.Subject = "SHOP Confirm your email";
                     newsignup.To = user.Email;
 
@@ -70,13 +72,55 @@ namespace TARge25Shop.Controllers
                     }
 
                     _emailServices.SendEmailToken(newsignup, token);
+                    List<string> errordatas =
+                        [
+                        "Area", "Accounts",
+                        "Issue", "Success",
+                        "StatusMessage", "Registration Sucess",
+                        "ActedOn", $"{vm.Email}",
+                        "CreatedAccountData", $"{vm.Email}\n{vm.City}\n[password hidden]\n[password hidden]"
+                        ];
+                    ViewBag.ErrorData = errordatas;
+                    ViewBag.ErrorTitle = "Registration Success";
+                    ViewBag.ErrorMessage = "Please check your email to confirm your account.";
+
+                    return View("ConfirmationEmailMessage");
                 }
 
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+            // If we got this far, something failed; redisplay the form
+            return View();
+        }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            if (userId == null || token == null)
+            {
                 return RedirectToAction("Index", "Home");
             }
+            //otsib ülesse kasutajaid läbi Id
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"The user with id of {userId} is not valid";
+                return View("NotFound");
+            }
 
-            return View(model);
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            List<string> errordatas =
+                    [
+                    "Area", "Accounts",
+                    "Issue", "Success",
+                    "StatusMessage", "Registration Success",
+                    "ActedOn", $"{user.Email}",
+                    "CreatedAccountData", $"{user.Email}\n{user.City}\n[password hidden]"
+                    ];
         }
     }
 }
