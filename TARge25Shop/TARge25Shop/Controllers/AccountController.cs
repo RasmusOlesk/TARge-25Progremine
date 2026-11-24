@@ -257,12 +257,9 @@ namespace TARge25Shop.Controllers
 
                 if (user != null)
                 {
-                    //tulemuses kasutate ResetPasswordAsync ja see annab kaasa user, tokeni ja salasõna
-
-                    //kui õnnestub, siis returnib vaadet resetPasswordConfirmation
-
+                    //tulemuses kasutate ResetPasswordAsync ja see annab kaasa uesr, tokeni ja salasõna
                     var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
-                    
+
                     if (result.Succeeded)
                     {
                         if (await _userManager.IsLockedOutAsync(user))
@@ -277,12 +274,12 @@ namespace TARge25Shop.Controllers
                     {
                         ModelState.AddModelError("", error.Description);
                     }
+
                     return View(model);
                 }
-                return View("ResetPasswordConfirmation");
-
+                //võib näidata viga, mis on tekkinud või suunab tagasi emaili kinnituse vaatesse
+                return View(model);
             }
-
             return View(model);
         }
 
@@ -298,29 +295,30 @@ namespace TARge25Shop.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(User);
-                // Kui user on null, siis suuna Login vaatesse
+
+                //kui user on null, siis suuna Login vaatesse
                 if (user == null)
                 {
                     return RedirectToAction("Login");
                 }
 
-                // Muudab kasutaja parooli
+                //var result muutuja peab kasutama meetotit muudaPassword
                 var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
 
-                // Kui ei ole edukas, siis näita veateateid
+                //kui ei ole edukas, siis n'ita veateadet
                 if (!result.Succeeded)
                 {
                     foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError(string.Empty, error.Description);
                     }
+
                     return View();
                 }
 
-                // Värskendab sisselogimise sessiooni (küpsise)
+                //tuleb kasutada värskenda sisse kirjutamist meetotit
+                //suunab vaatele muutsid salasõna edukalt
                 await _signInManager.RefreshSignInAsync(user);
-
-                // Suunab vaatele, et salasõna muutmine õnnestus
                 return View("ChangePasswordConfirmation");
             }
 
@@ -328,12 +326,10 @@ namespace TARge25Shop.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> LogOut()
+        public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
-
-
     }
 }

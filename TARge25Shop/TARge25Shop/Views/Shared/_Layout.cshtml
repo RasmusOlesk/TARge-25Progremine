@@ -1,7 +1,9 @@
-﻿@using Microsoft.AspNetCore.Identity;
-@inject SignInManager<TARge25Shop.Core.Domain.ApplicationUser> signinManager;
+﻿﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<TARge25Shop.Core.Domain.ApplicationUser> signInManager;
 @inject UserManager<TARge25Shop.Core.Domain.ApplicationUser> userManager;
-
+@{
+    var user = await userManager.GetUserAsync(User);
+}
 
 
 <!DOCTYPE html>
@@ -17,65 +19,59 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-black border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand text-success" asp-area="" asp-controller="Home" asp-action="Index">TARge25Shop</a>
-                <button1 class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TARge25Shop</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
-                </button1>
+                </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul1 class="navbar-nav flex-grow-1">
-                        @if (signinManager.IsSignedIn(User))
-                           
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (signInManager.IsSignedIn(User))
+                        {    
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Spaceship" asp-action="Index">Spaceship</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="RealEstate" asp-action="Index">RealEstate</a>
+                            </li>                      
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="ChuckNorris" asp-action="Index">Chuck Norris</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Cocktail" asp-action="Index">Cocktail</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Email" asp-action="Index">Email</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
+                            </li>
+                            <li class="nav-item">
+                                <form method="post" asp-controller="Account" asp-action="Logout">
+                                    <button type="submit" class="btn btn-link">
+                                        Logout @user.Name
+                                    </button>
+                                </form>
+                            </li>
+                        }
+                        else
                         {
-
-
-                                
-                                <li class="nav-item">
-                                    <a class="nav-link text-success" asp-area="" asp-controller="Spaceship" asp-action="Index">Spaceship</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-success" asp-area="" asp-controller="RealEstate" asp-action="Index">RealEstate</a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link text-success" asp-area="" asp-controller="ChuckNorris" asp-action="Index">ChuckNorris</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-success" asp-area="" asp-controller="Cocktail" asp-action="Drink">Cocktail</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-success" asp-area="" asp-controller="Email" asp-action="Index">Email</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-success" asp-area="" asp-controller="Account" asp-action="Register">Registration</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-success" asp-area="" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-success" asp-area="" asp-controller="Account" asp-action="LogOut">Logout</a>
-                                </li>
-                            }
-                            else
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-success" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-success" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-success" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-success" asp-area="" asp-controller="Account" asp-action="Register">Registration</a>
-                                </li>
-                               
-                            }
-
-                    </ul1>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Registration</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                        }
+                    </ul>
                 </div>
             </div>
         </nav>
@@ -87,9 +83,9 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div1 class="container">
+        <div class="container">
             &copy; 2026 - TARge25Shop - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div1>
+        </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -113,54 +109,50 @@
 
     <script>
         
-        const squareContainer = document.querySelector('.background-squares');
-        for (let i = 0; i < 40; i++) {
-            const sq = document.createElement('div');
-            sq.classList.add('square');
-            sq.style.top = Math.random() * 100 + "%";
-            sq.style.left = Math.random() * 100 + "%";
-            sq.style.animationDuration = 10 + Math.random() * 20 + "s";
-            sq.style.opacity = 0.2 + Math.random() * 0.5;
-            squareContainer.appendChild(sq);
-        }
-
-        
-                    const rainContainer = document.querySelector('.code-rain');
-            const chars = '01アイウエオカキクケコｱｲｳｴｵ';
-
-            function createRainStream() {
-                const stream = document.createElement('div');
-                stream.classList.add('rain-stream');
-    
-                const length = 10 + Math.random() * 30;
-    
-                for (let i = 0; i < length; i++) {
-                    const char = document.createElement('span');
-                    char.textContent = chars[Math.floor(Math.random() * chars.length)];
-        
-                    char.style.display = 'inline-block';
-                    char.style.transform = 'rotate(180deg)';
-        
-                    stream.appendChild(char);
-                    stream.appendChild(document.createElement('br'));
-                }
-    
-                stream.style.left = `${Math.random() * 100}vw`;
-                stream.style.animationDuration = `${3 + Math.random() * 5}s`;
-    
-                rainContainer.appendChild(stream);
-    
-                stream.addEventListener('animationend', () => {
-                    stream.remove();
-                });
+            const squareContainer = document.querySelector('.background-squares');
+            for (let i = 0; i < 40; i++) {
+                const sq = document.createElement('div');
+                sq.classList.add('square');
+                sq.style.top = Math.random() * 100 + "%";
+                sq.style.left = Math.random() * 100 + "%";
+                sq.style.animationDuration = 10 + Math.random() * 20 + "s";
+                sq.style.opacity = 0.2 + Math.random() * 0.5;
+                squareContainer.appendChild(sq);
             }
 
+        
+                        const rainContainer = document.querySelector('.code-rain');
+                const chars = '01アイウエオカキクケコｱｲｳｴｵ';
 
-        setInterval(createRainStream, 200);
+                function createRainStream() {
+                    const stream = document.createElement('div');
+                    stream.classList.add('rain-stream');
+    
+                    const length = 10 + Math.random() * 30;
+    
+                    for (let i = 0; i < length; i++) {
+                        const char = document.createElement('span');
+                        char.textContent = chars[Math.floor(Math.random() * chars.length)];
+        
+                        char.style.display = 'inline-block';
+                        char.style.transform = 'rotate(180deg)';
+        
+                        stream.appendChild(char);
+                        stream.appendChild(document.createElement('br'));
+                    }
+    
+                    stream.style.left = `${Math.random() * 100}vw`;
+                    stream.style.animationDuration = `${3 + Math.random() * 5}s`;
+    
+                    rainContainer.appendChild(stream);
+    
+                    stream.addEventListener('animationend', () => {
+                        stream.remove();
+                    });
+                }
+
+
+            setInterval(createRainStream, 200);
     </script>
 </body>
 </html>
-
-
-
-
